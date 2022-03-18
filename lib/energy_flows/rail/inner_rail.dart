@@ -11,6 +11,7 @@ class InnerRail extends StatefulWidget {
     Key? key,
     required this.offsetDistanceRatio,
     required this.offsetDirection,
+    required this.isActive,
     required this.startColor,
     required this.endColor,
     this.reverse = true,
@@ -18,6 +19,7 @@ class InnerRail extends StatefulWidget {
 
   final double offsetDistanceRatio;
   final double offsetDirection;
+  final bool isActive;
   final Color startColor;
   final Color endColor;
   final bool reverse;
@@ -119,7 +121,7 @@ class _InnerRailState extends State<InnerRail> with TickerProviderStateMixin {
                 offsetDistanceRatio: widget.offsetDistanceRatio,
                 progress: progressAnimation.value,
                 color: colorAnimation.value,
-                glowScale: glowScaleAnimation.value)));
+                glowScale: glowScaleAnimation.value,
+                isActive: widget.isActive)));
   }
 }
-

@@ -2,7 +2,8 @@ part of '../energy_flows_icon.dart';
 
 class EnergyFlowsIconModel {
   final String name;
-  final MaterialColor color;
+  final Color color;
+  final void Function()? onTap;
 
   /// How far the icon is located from the center of of the canvas,
   /// actual offset distance subjected to device size.
@@ -20,6 +21,7 @@ class EnergyFlowsIconModel {
   const EnergyFlowsIconModel(
       {required this.name,
       required this.color,
+       this.onTap,
       required this.offsetDistanceRatio,
       required this.offsetDirection});
 

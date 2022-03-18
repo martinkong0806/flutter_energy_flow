@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 import 'dart:math' as math;
 
 import '../energy_flows.dart';
@@ -11,8 +10,12 @@ part 'model/energy_flows_icon_model.dart';
 /// The Icons that indicates all the energy sources of a battery system
 class EnergyFlowsIcon extends StatefulWidget {
   final EnergyFlowsIconModel _model;
-  const EnergyFlowsIcon(EnergyFlowsIconModel model, {Key? key})
+  final bool _isActive;
+  final void Function()? onTap;
+
+  const EnergyFlowsIcon(EnergyFlowsIconModel model, bool isActive, {Key? key , this.onTap})
       : _model = model,
+        _isActive = isActive,
         super(key: key);
 
   @override
@@ -52,21 +55,19 @@ class _EnergyFlowsIconState extends State<EnergyFlowsIcon>
 
   @override
   Widget build(BuildContext context) {
-    double canvasSize = MediaQuery.of(context).size.shortestSide/5;
+    double canvasSize = MediaQuery.of(context).size.shortestSide / 5;
     return SizedBox(
         width: canvasSize,
         height: canvasSize,
         child: GestureDetector(
-
-          onTap: () {
-            print(model.name);
-          },
+          onTap: widget.onTap,
           child: CustomPaint(
               painter: EnergyFlowsIconPaint(
                   color: model.color,
                   offsetDistanceRatio: model.offsetDistanceRatio,
                   offsetDirection: model.offsetDirection,
-                  glow: glowAnimation.value)),
+                  glow: glowAnimation.value,
+                  isActive: widget._isActive)),
         ));
   }
 }

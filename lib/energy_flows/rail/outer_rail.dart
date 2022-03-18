@@ -9,13 +9,14 @@ part './painter/outer_rail_painter.dart';
 class OuterRail extends StatefulWidget {
   final double startAngle, sweepAngle;
   final Color startColor, endColor;
-  final bool reverse;
+  final bool reverse, isActive;
   const OuterRail(
       {Key? key,
       required this.startAngle,
       this.sweepAngle = 2 * math.pi / 3,
       required this.startColor,
       required this.endColor,
+      required this.isActive,
       this.reverse = false})
       : super(key: key);
 
@@ -118,6 +119,7 @@ class _OuterRailState extends State<OuterRail> with TickerProviderStateMixin {
                 rotation: rotationAnimation.value,
                 color: colorAnimation.value,
                 glowScale: glowScaleAnimation.value,
+                isActive: widget.isActive
                 )));
   }
 }

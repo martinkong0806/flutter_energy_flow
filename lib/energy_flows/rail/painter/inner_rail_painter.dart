@@ -6,17 +6,18 @@ class InnerRailPainter extends CustomPainter {
   final double progress;
   final Color? color;
   final double glowScale;
+  final bool isActive;
 
-  InnerRailPainter({
-    required this.offsetDistanceRatio,
-    required this.offsetDirection,
-    required this.progress,
-    required this.color,
-    required this.glowScale,
-  });
+  InnerRailPainter(
+      {required this.offsetDistanceRatio,
+      required this.offsetDirection,
+      required this.progress,
+      required this.color,
+      required this.glowScale,
+      required this.isActive});
 
   final railPaint = Paint()
-    ..color = Colors.white
+    ..color = Colors.grey
     ..strokeCap = StrokeCap.round
     ..strokeWidth = 2
     ..style = PaintingStyle.stroke;
@@ -56,40 +57,41 @@ class InnerRailPainter extends CustomPainter {
         math.sin(offsetDirection) *
             highlightRailDistance *
             (progress + progressOffset));
+    if (isActive) {
+      canvas.drawLine(
+          highlightedRailStartOffset,
+          highlightedRailEndOffset,
+          railPaint
+            ..shader = LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: const <double>[
+                  0.25,
+                  0.5,
+                  0.75
+                ],
+                colors: [
+                  Colors.transparent,
+                  color ?? Colors.white,
+                  Colors.transparent,
+                ]).createShader(Rect.fromPoints(
+                highlightedRailStartOffset, highlightedRailEndOffset)));
 
-    canvas.drawLine(
-        highlightedRailStartOffset,
-        highlightedRailEndOffset,
-        railPaint
-          ..shader = LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              stops: const <double>[
-                0.25,
-                0.5,
-                0.75
-              ],
-              colors: [
-                Colors.transparent,
-                color ?? Colors.white,
-                Colors.transparent,
-              ]).createShader(Rect.fromPoints(
-              highlightedRailStartOffset, highlightedRailEndOffset)));
+      final double ballRadius = size.shortestSide / 75;
+      final double glowRadius = size.shortestSide / 50;
 
-    final double ballRadius = size.shortestSide / 75;
-    final double glowRadius = size.shortestSide / 50;
+      canvas.drawCircle(
+          (highlightedRailStartOffset + highlightedRailEndOffset) / 2,
+          glowRadius * glowScale,
+          Paint()
+            ..color = color ?? Colors.white
+            ..maskFilter = MaskFilter.blur(BlurStyle.normal, 5 * glowScale));
 
-    canvas.drawCircle(
-        (highlightedRailStartOffset + highlightedRailEndOffset) / 2,
-        glowRadius * glowScale,
-        Paint()
-          ..color = color ?? Colors.white
-          ..maskFilter = MaskFilter.blur(BlurStyle.normal, 5 * glowScale));
-
-    canvas.drawCircle(
-        (highlightedRailStartOffset + highlightedRailEndOffset) / 2,
-        ballRadius,
-        Paint()..color = color ?? Colors.white);
+      canvas.drawCircle(
+          (highlightedRailStartOffset + highlightedRailEndOffset) / 2,
+          ballRadius,
+          Paint()..color = color ?? Colors.white);
+    }
   }
 
   @override

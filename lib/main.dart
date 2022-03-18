@@ -1,5 +1,7 @@
+import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_energy_flows/energy_flows/model/energy_flow_model.dart';
 
 import 'energy_flows/energy_flows.dart';
 
@@ -32,27 +34,28 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   void initState() {
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    EnergyFlowModel model = EnergyFlowModel(
+        pvPower: 206000,
+        batPower: -10008,
+        gridPower: 50,
+        displayAsUnsigned: true,
+        onPvTap: () {
+          print("pv");
+        });
+    
+    print(model.gridToLoad);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Container(
-        color: Colors.black,
-        child: const EnergyFlows(
-          pvPower: 2,
-          batPower: 1,
-          gridPower :1,
-
-        ))
-
-    );
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        body: Container(
+          // color: Colors.b,
+          child: EnergyFlows(model: model),
+        ));
   }
 }
-
-

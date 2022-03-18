@@ -17,3 +17,29 @@ const Duration ENERGY_BLOB_GLOW_COLOR_DURATION = Duration(seconds: 4);
 const Duration ENERGY_BLOB_GLOW_ROTATION_DURATION = Duration(seconds: 4);
 
 
+const List<EnergyFlowsIconModel> iconModels = [
+  EnergyFlowsIconModel(
+    name: "solar",
+    color: Color(0xfff8dd6c),
+    offsetDistanceRatio: 3 / 4,
+    offsetDirection: 2 * math.pi * 2 / 3 + math.pi / 6,
+  ),
+  EnergyFlowsIconModel(
+    name: "load",
+    color: Color(0xff4fbba9),
+    offsetDistanceRatio: 0,
+    offsetDirection: 0,
+  ),
+  EnergyFlowsIconModel(
+    name: "battery",
+    color: Color(0xff233c7b),
+    offsetDistanceRatio: 3 / 4,
+    offsetDirection: 2 * math.pi / 3 + math.pi / 6,
+  ),
+  EnergyFlowsIconModel(
+    name: "grid",
+    color: Color(0xffeb5b56),
+    offsetDistanceRatio: 3 / 4,
+    offsetDirection: 2 * math.pi + math.pi / 6,
+  )
+];
