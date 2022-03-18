@@ -56,6 +56,12 @@ class _EnergyFlowsIconState extends State<EnergyFlowsIcon>
   }
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double canvasSize = MediaQuery.of(context).size.shortestSide / 5;
     return SizedBox(

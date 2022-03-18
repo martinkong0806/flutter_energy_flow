@@ -111,6 +111,14 @@ class _InnerRailState extends State<InnerRail> with TickerProviderStateMixin {
   }
 
   @override
+  void dispose() {
+    progressController.dispose();
+    colorController.dispose();
+    glowScaleController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
         width: double.infinity,

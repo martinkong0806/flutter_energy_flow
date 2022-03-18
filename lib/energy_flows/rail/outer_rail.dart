@@ -108,6 +108,14 @@ class _OuterRailState extends State<OuterRail> with TickerProviderStateMixin {
   }
 
   @override
+  void dispose() {
+    rotationController.dispose();
+    colorController.dispose();
+    glowScaleController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
         width: double.infinity,
@@ -119,7 +127,6 @@ class _OuterRailState extends State<OuterRail> with TickerProviderStateMixin {
                 rotation: rotationAnimation.value,
                 color: colorAnimation.value,
                 glowScale: glowScaleAnimation.value,
-                isActive: widget.isActive
-                )));
+                isActive: widget.isActive)));
   }
 }
