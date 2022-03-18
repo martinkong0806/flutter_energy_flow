@@ -7,6 +7,10 @@ class EnergyFlowModel {
       {this.pvPower = 0,
       this.batPower = 0,
       this.gridPower = 0,
+      this.pvIcon,
+      this.loadIcon,
+      this.batIcon,
+      this.gridIcon,
       this.onPvTap,
       this.onLoadTap,
       this.onBatTap,
@@ -22,6 +26,8 @@ class EnergyFlowModel {
   // in Watts
   // Negative as importing, positive as exporting
   final double gridPower;
+
+  final Widget? pvIcon, loadIcon, batIcon, gridIcon;
 
   final void Function()? onPvTap, onLoadTap, onBatTap, onGridTap;
 
@@ -44,6 +50,8 @@ class EnergyFlowModel {
 
   List<void Function()?> get onTaps =>
       [onPvTap, onLoadTap, onBatTap, onGridTap];
+
+  List<Widget?> get icons => [pvIcon, loadIcon, batIcon, gridIcon];
 
   String powerValuesAsString(double value) {
     value = value / 1000;

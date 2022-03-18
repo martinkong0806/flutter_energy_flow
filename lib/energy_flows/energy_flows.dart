@@ -120,7 +120,17 @@ class _EnergyFlowsState extends State<EnergyFlows> {
               child: SizedBox(
                   width: MediaQuery.of(context).size.shortestSide / 5,
                   height: MediaQuery.of(context).size.shortestSide / 5,
-                  child: Center(child: Text(widget.model.powerValues[i]))),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width:
+                            MediaQuery.of(context).size.shortestSide / 8.5,
+                        height:
+                            MediaQuery.of(context).size.shortestSide / 8.5,
+                      ),
+                      Center(child: Text(widget.model.powerValues[i])),
+                    ],
+                  )),
             )),
       ]
     ]);
