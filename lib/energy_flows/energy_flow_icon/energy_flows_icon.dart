@@ -12,8 +12,10 @@ class EnergyFlowsIcon extends StatefulWidget {
   final EnergyFlowsIconModel _model;
   final bool _isActive;
   final void Function()? onTap;
+  final ThemeMode themeMode;
 
-  const EnergyFlowsIcon(EnergyFlowsIconModel model, bool isActive, {Key? key , this.onTap})
+  const EnergyFlowsIcon(EnergyFlowsIconModel model, bool isActive,
+      {Key? key, this.onTap, required this.themeMode})
       : _model = model,
         _isActive = isActive,
         super(key: key);
@@ -63,11 +65,13 @@ class _EnergyFlowsIconState extends State<EnergyFlowsIcon>
           onTap: widget.onTap,
           child: CustomPaint(
               painter: EnergyFlowsIconPaint(
-                  color: model.color,
-                  offsetDistanceRatio: model.offsetDistanceRatio,
-                  offsetDirection: model.offsetDirection,
-                  glow: glowAnimation.value,
-                  isActive: widget._isActive)),
+            color: model.color,
+            offsetDistanceRatio: model.offsetDistanceRatio,
+            offsetDirection: model.offsetDirection,
+            glow: glowAnimation.value,
+            isActive: widget._isActive,
+            themeMode: widget.themeMode,
+          )),
         ));
   }
 }

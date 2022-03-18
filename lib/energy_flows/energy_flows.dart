@@ -110,6 +110,7 @@ class _EnergyFlowsState extends State<EnergyFlows> {
             iconModels[i],
             widget.model.powerStates[i],
             onTap: widget.model.onTaps[i],
+            themeMode: widget.model.themeMode,
           ),
         ),
         Positioned(

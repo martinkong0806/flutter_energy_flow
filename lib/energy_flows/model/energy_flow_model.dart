@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
+
 class EnergyFlowModel {
   EnergyFlowModel(
       {this.pvPower = 0,
@@ -9,6 +11,7 @@ class EnergyFlowModel {
       this.onLoadTap,
       this.onBatTap,
       this.onGridTap,
+      this.themeMode = ThemeMode.light,
       this.displayAsUnsigned = true});
 
   /// in Watts
@@ -24,6 +27,8 @@ class EnergyFlowModel {
 
   /// Show power values unsigned
   final bool displayAsUnsigned;
+
+  final ThemeMode themeMode;
 
   /// Unlogical power values may occur if the system consist more than 1 inverter
   bool get isValid => pvPower + batPower - gridPower > 0;
@@ -43,8 +48,8 @@ class EnergyFlowModel {
   String powerValuesAsString(double value) {
     value = value / 1000;
     if (displayAsUnsigned) value = value.abs();
- 
-    int exponent = min(3 - max(log(value),0)~/log(10),3);
+
+    int exponent = min(3 - max(log(value), 0) ~/ log(10), 3);
     value = (value * pow(10, exponent)).round() / pow(10, exponent);
     if (value == 0) return "0 kW";
     return value.toString() + " kW";
