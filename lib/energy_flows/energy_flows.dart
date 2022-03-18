@@ -127,6 +127,7 @@ class _EnergyFlowsState extends State<EnergyFlows> {
                             MediaQuery.of(context).size.shortestSide / 8.5,
                         height:
                             MediaQuery.of(context).size.shortestSide / 8.5,
+                        child: widget.model.icons[i]
                       ),
                       Center(child: Text(widget.model.powerValues[i])),
                     ],
