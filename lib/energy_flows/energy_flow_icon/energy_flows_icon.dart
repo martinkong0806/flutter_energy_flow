@@ -11,11 +11,11 @@ part 'model/energy_flows_icon_model.dart';
 class EnergyFlowsIcon extends StatefulWidget {
   final EnergyFlowsIconModel _model;
   final bool _isActive;
-  final void Function()? onTap;
+  final void Function(TapDownDetails)? onTapDown;
   final ThemeMode themeMode;
 
   const EnergyFlowsIcon(EnergyFlowsIconModel model, bool isActive,
-      {Key? key, this.onTap, required this.themeMode})
+      {Key? key, this.onTapDown, required this.themeMode})
       : _model = model,
         _isActive = isActive,
         super(key: key);
@@ -68,7 +68,7 @@ class _EnergyFlowsIconState extends State<EnergyFlowsIcon>
         width: canvasSize,
         height: canvasSize,
         child: GestureDetector(
-          onTap: widget.onTap,
+          onTapDown: widget.onTapDown,
           child: CustomPaint(
               painter: EnergyFlowsIconPaint(
             color: model.color,

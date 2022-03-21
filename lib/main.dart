@@ -44,8 +44,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         batPower: 0,
         gridPower: 500,
         displayAsUnsigned: true,
-        onPvTap: () {
-          print("pv");
+        onPvTap: (TapDownDetails details) {
+          print(details.globalPosition);
         });
 
     print(model.gridToLoad);

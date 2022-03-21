@@ -29,7 +29,7 @@ class EnergyFlowModel {
 
   final Widget? pvIcon, loadIcon, batIcon, gridIcon;
 
-  final void Function()? onPvTap, onLoadTap, onBatTap, onGridTap;
+  final void Function(TapDownDetails)? onPvTap, onLoadTap, onBatTap, onGridTap;
 
   /// Show power values unsigned
   final bool displayAsUnsigned;
@@ -48,7 +48,7 @@ class EnergyFlowModel {
       .map(powerValuesAsString)
       .toList();
 
-  List<void Function()?> get onTaps =>
+  List<void Function(TapDownDetails)?> get onTaps =>
       [onPvTap, onLoadTap, onBatTap, onGridTap];
 
   List<Widget?> get icons => [pvIcon, loadIcon, batIcon, gridIcon];

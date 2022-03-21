@@ -109,7 +109,7 @@ class _EnergyFlowsState extends State<EnergyFlows> {
           child: EnergyFlowsIcon(
             iconModels[i],
             widget.model.powerStates[i],
-            onTap: widget.model.onTaps[i],
+            onTapDown: widget.model.onTaps[i],
             themeMode: widget.model.themeMode,
           ),
         ),
