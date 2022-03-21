@@ -47,8 +47,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         onPvTap: (TapDownDetails details) {
           print(details.globalPosition);
         });
-
-    print(model.gridToLoad);
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
