@@ -54,13 +54,22 @@ class EnergyFlowModel {
   List<Widget?> get icons => [pvIcon, loadIcon, batIcon, gridIcon];
 
   String powerValuesAsString(double value) {
-    value = value / 1000;
     if (displayAsUnsigned) value = value.abs();
+    String unit = "W";
+    if (value < pow(10, 4)) return value.toInt().toString() + " " + unit;
+    if (value < pow(10, 7)) {
+      unit = "kW";
+      value /= 1000;
+    } else  {
+      unit = "MW";
+      value /= 1000 * 1000;
+    }
 
-    int exponent = min(3 - max(log(value), 0) ~/ log(10), 3);
+    int exponent = min(2 - max(log(value), 0) ~/ log(10), 2);
     value = (value * pow(10, exponent)).round() / pow(10, exponent);
-    if (value == 0) return "0 kW";
-    return value.toString() + " kW";
+    /// if value is larger than 1000, view without decimal
+    if(value >= pow(10, 3) ) return value.toInt().toString() + " " + unit;
+    return value.toString() + " " + unit;
   }
 
   bool get isPvActive => isValid && pvPower.isPositive;

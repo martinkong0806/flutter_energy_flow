@@ -117,18 +117,17 @@ class _EnergyFlowsState extends State<EnergyFlows> {
             left: iconModels[i].offset(size).dx,
             top: iconModels[i].offset(size).dy,
             child: IgnorePointer(
-              child: SizedBox(
+              child: Container(
+                  decoration: const BoxDecoration(shape: BoxShape.circle),
                   width: MediaQuery.of(context).size.shortestSide / 5,
                   height: MediaQuery.of(context).size.shortestSide / 5,
                   child: Column(
                     children: [
                       SizedBox(
-                        width:
-                            MediaQuery.of(context).size.shortestSide / 8.5,
-                        height:
-                            MediaQuery.of(context).size.shortestSide / 8.5,
-                        child: widget.model.icons[i]
-                      ),
+                          width: MediaQuery.of(context).size.shortestSide / 7.5,
+                          height:
+                              MediaQuery.of(context).size.shortestSide / 7.5,
+                          child: widget.model.icons[i]),
                       Center(child: Text(widget.model.powerValues[i])),
                     ],
                   )),
