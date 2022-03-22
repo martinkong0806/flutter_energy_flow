@@ -16,17 +16,18 @@ class InnerRailPainter extends CustomPainter {
       required this.glowScale,
       required this.isActive});
 
-  final railPaint = Paint()
-    ..color = Colors.grey
-    ..strokeCap = StrokeCap.round
-    ..strokeWidth = 2
-    ..style = PaintingStyle.stroke;
+  
 
   @override
   void paint(Canvas canvas, Size size) {
     final Offset startOffset = size.toOffset() / 2;
     final Offset endOffset = startOffset.toDistance(
         offsetDirection, offsetDistanceRatio * size.shortestSide / 2);
+    final Paint railPaint = Paint()
+      ..color = isActive? activeRailColor : inactiveRailColor
+      ..strokeCap = StrokeCap.round
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke;
 
     /// background Rail
     canvas.drawLine(startOffset, endOffset, railPaint);
@@ -67,12 +68,16 @@ class InnerRailPainter extends CustomPainter {
                 end: Alignment.bottomCenter,
                 stops: const <double>[
                   0.25,
+                  0.25,
                   0.5,
+                  0.75,
                   0.75
                 ],
                 colors: [
                   Colors.transparent,
+                  activeRailColor,
                   color ?? Colors.white,
+                  activeRailColor,
                   Colors.transparent,
                 ]).createShader(Rect.fromPoints(
                 highlightedRailStartOffset, highlightedRailEndOffset)));

@@ -61,38 +61,38 @@ class _EnergyFlowsState extends State<EnergyFlows> {
 
         OuterRail(
           startAngle: math.pi / 6,
-          startColor: Color(0XFFEB5B56),
-          endColor: Color(0XFF233C7B),
+          startColor: const Color(0XFFEB5B56),
+          endColor: const Color(0XFF233C7B),
           reverse: true,
           isActive: widget.model.batToGrid.isPositive,
         ),
         OuterRail(
           startAngle: math.pi / 6,
-          startColor: Color(0XFFEB5B56),
-          endColor: Color(0XFF233C7B),
+          startColor: const Color(0XFFEB5B56),
+          endColor: const Color(0XFF233C7B),
           isActive: widget.model.gridToBat.isPositive,
         ),
 
         OuterRail(
           startAngle: math.pi / 6 + 4 * math.pi / 3,
-          startColor: Color(0xfff8DD6C),
-          endColor: Color(0xffeB5B56),
+          startColor:const  Color(0xfff8DD6C),
+          endColor: const Color(0xffeB5B56),
           isActive: widget.model.pvToGrid.isPositive,
         ),
         InnerRail(
           offsetDistanceRatio: 3 / 4,
           offsetDirection: 2 * math.pi / 3 + math.pi / 6,
           isActive: widget.model.batToLoad.isPositive,
-          startColor: Color(0xff4fbba9),
-          endColor: Color(0xff233C7B),
+          startColor: const Color(0xff4fbba9),
+          endColor: const Color(0xff233C7B),
         ),
 
         InnerRail(
           offsetDistanceRatio: 3 / 4,
           offsetDirection: 2 * math.pi + math.pi / 6,
           isActive: widget.model.gridToLoad.isPositive,
-          startColor: Color(0xff4fbba9),
-          endColor: Color(0xffeB5B56),
+          startColor: const Color(0xff4fbba9),
+          endColor: const Color(0xffeB5B56),
         ),
       ],
     );

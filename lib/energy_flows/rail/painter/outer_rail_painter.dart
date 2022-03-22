@@ -18,17 +18,18 @@ class OuterRailPainter extends CustomPainter {
   final double glowSize = math.pi / 4;
   final double glowOffset = -math.pi / 4 / 2;
 
-  final railPaint = Paint()
-    ..color = Colors.grey
-    ..strokeCap = StrokeCap.round
-    ..strokeWidth = 2
-    ..style = PaintingStyle.stroke;
-
   double t = 0.6;
   @override
   void paint(Canvas canvas, Size size) {
     final Offset center = size.toOffset() / 2;
     final double railRadius = size.shortestSide / 2.5;
+
+    final Paint railPaint = Paint()
+      ..color = isActive ? activeRailColor : inactiveRailColor
+      ..strokeCap = StrokeCap.round
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke;
+
 
     //  Background Rail
     canvas.drawArc(Rect.fromCircle(center: center, radius: railRadius),
@@ -46,9 +47,18 @@ class OuterRailPainter extends CustomPainter {
                 tileMode: TileMode.repeated,
                 startAngle: rotation + glowOffset,
                 endAngle: rotation + glowSize + glowOffset,
+                stops: const <double>[
+                  0.25,
+                  0.25,
+                  0.5,
+                  0.75,
+                  0.75
+                ],
                 colors: [
                   Colors.transparent,
+                  activeRailColor,
                   color ?? Colors.white,
+                  activeRailColor,
                   Colors.transparent,
                 ]).createShader(
                 Rect.fromCircle(center: center, radius: railRadius)));

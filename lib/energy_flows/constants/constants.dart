@@ -16,29 +16,35 @@ const Duration ENERGY_BLOB_GLOW_COLOR_DURATION = Duration(seconds: 4);
 
 const Duration ENERGY_BLOB_GLOW_ROTATION_DURATION = Duration(seconds: 4);
 
+const Color pvColor = Color(0xfff8dd6c);
+const Color loadColor = Color(0xff4fbba9);
+const Color batColor = Color(0xff233c7b);
+const Color gridColor = Color(0xffeb5b56);
+const Color activeRailColor = Color(0xffe2e3e3);
+const Color inactiveRailColor = Color(0xfff6f7f7);
 
 const List<EnergyFlowsIconModel> iconModels = [
   EnergyFlowsIconModel(
     name: "solar",
-    color: Color(0xfff8dd6c),
+    color: pvColor,
     offsetDistanceRatio: 3 / 4,
     offsetDirection: 2 * math.pi * 2 / 3 + math.pi / 6,
   ),
   EnergyFlowsIconModel(
     name: "load",
-    color: Color(0xff4fbba9),
+    color: loadColor,
     offsetDistanceRatio: 0,
     offsetDirection: 0,
   ),
   EnergyFlowsIconModel(
     name: "battery",
-    color: Color(0xff233c7b),
+    color: batColor,
     offsetDistanceRatio: 3 / 4,
     offsetDirection: 2 * math.pi / 3 + math.pi / 6,
   ),
   EnergyFlowsIconModel(
     name: "grid",
-    color: Color(0xffeb5b56),
+    color: gridColor,
     offsetDistanceRatio: 3 / 4,
     offsetDirection: 2 * math.pi + math.pi / 6,
   )

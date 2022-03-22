@@ -7,6 +7,7 @@ class EnergyFlowModel {
       {this.pvPower = 0,
       this.batPower = 0,
       this.gridPower = 0,
+      this.loadPowerC,
       this.pvIcon,
       this.loadIcon,
       this.batIcon,
@@ -27,6 +28,11 @@ class EnergyFlowModel {
   // Negative as importing, positive as exporting
   final double gridPower;
 
+  /// Custome loadPower, if load power is not specified,
+  ///  the load power will be calaulated. The value is not
+  /// involved in calcuation.
+  final double? loadPowerC;
+
   final Widget? pvIcon, loadIcon, batIcon, gridIcon;
 
   final void Function(TapDownDetails)? onPvTap, onLoadTap, onBatTap, onGridTap;
@@ -44,9 +50,12 @@ class EnergyFlowModel {
   List<bool> get powerStates =>
       [isPvActive, isLoadActive, isBatActive, isGridActive];
 
-  List<String> get powerValues => [pvPower, loadPower, batPower, gridPower]
-      .map(powerValuesAsString)
-      .toList();
+  List<String> get powerValues => [
+        pvPower,
+        loadPowerC ?? loadPower,
+        batPower,
+        gridPower
+      ].map(powerValuesAsString).toList();
 
   List<void Function(TapDownDetails)?> get onTaps =>
       [onPvTap, onLoadTap, onBatTap, onGridTap];
@@ -60,15 +69,16 @@ class EnergyFlowModel {
     if (value < pow(10, 7)) {
       unit = "kW";
       value /= 1000;
-    } else  {
+    } else {
       unit = "MW";
       value /= 1000 * 1000;
     }
 
     int exponent = min(2 - max(log(value), 0) ~/ log(10), 2);
     value = (value * pow(10, exponent)).round() / pow(10, exponent);
+
     /// if value is larger than 1000, view without decimal
-    if(value >= pow(10, 3) ) return value.toInt().toString() + " " + unit;
+    if (value >= pow(10, 3)) return value.toInt().toString() + " " + unit;
     return value.toString() + " " + unit;
   }
 

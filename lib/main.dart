@@ -42,6 +42,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     EnergyFlowModel model = EnergyFlowModel(
         pvPower: 28762,
         batPower: 0,
+        loadPowerC: 20,
         gridPower: 500,
         displayAsUnsigned: true,
         onPvTap: (TapDownDetails details) {
