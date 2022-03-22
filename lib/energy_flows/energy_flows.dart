@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_energy_flows/energy_flows/model/energy_flow_model.dart';
 
@@ -47,52 +45,52 @@ class _EnergyFlowsState extends State<EnergyFlows> {
           offsetDistanceRatio: 3 / 4,
           offsetDirection: 2 * math.pi * 2 / 3 + math.pi / 6,
           isActive: widget.model.pvToLoad.isPositive,
-          startColor: const Color(0xff4fbba9),
-          endColor: const Color(0xfff8dd6c),
+          startColor: loadColor,
+          endColor: pvColor,
         ),
 
         OuterRail(
           startAngle: math.pi / 6 + 2 * math.pi / 3,
-          startColor: const Color(0XFF233C7B),
-          endColor: const Color(0xFFF8DD6C),
+          startColor: batColor,
+          endColor: pvColor,
           reverse: true,
           isActive: widget.model.pvToBat.isPositive,
         ),
 
         OuterRail(
           startAngle: math.pi / 6,
-          startColor: const Color(0XFFEB5B56),
-          endColor: const Color(0XFF233C7B),
+          startColor: gridColor,
+          endColor: batColor,
           reverse: true,
           isActive: widget.model.batToGrid.isPositive,
         ),
         OuterRail(
           startAngle: math.pi / 6,
-          startColor: const Color(0XFFEB5B56),
-          endColor: const Color(0XFF233C7B),
+          startColor: gridColor,
+          endColor: batColor,
           isActive: widget.model.gridToBat.isPositive,
         ),
 
         OuterRail(
           startAngle: math.pi / 6 + 4 * math.pi / 3,
-          startColor:const  Color(0xfff8DD6C),
-          endColor: const Color(0xffeB5B56),
+          startColor:pvColor,
+          endColor: gridColor,
           isActive: widget.model.pvToGrid.isPositive,
         ),
         InnerRail(
           offsetDistanceRatio: 3 / 4,
           offsetDirection: 2 * math.pi / 3 + math.pi / 6,
           isActive: widget.model.batToLoad.isPositive,
-          startColor: const Color(0xff4fbba9),
-          endColor: const Color(0xff233C7B),
+          startColor: loadColor,
+          endColor: batColor,
         ),
 
         InnerRail(
           offsetDistanceRatio: 3 / 4,
           offsetDirection: 2 * math.pi + math.pi / 6,
           isActive: widget.model.gridToLoad.isPositive,
-          startColor: const Color(0xff4fbba9),
-          endColor: const Color(0xffeB5B56),
+          startColor: loadColor,
+          endColor: gridColor,
         ),
       ],
     );
