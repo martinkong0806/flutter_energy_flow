@@ -12,7 +12,9 @@ part 'utils/utils.dart';
 part 'constants/constants.dart';
 
 class EnergyFlows extends StatefulWidget {
-  const EnergyFlows({Key? key, required this.model}) : super(key: key);
+  const EnergyFlows({Key? key, required this.model, this.size})
+      : super(key: key);
+  final Size? size;
 
   final EnergyFlowModel model;
 
@@ -23,7 +25,8 @@ class EnergyFlows extends StatefulWidget {
 class _EnergyFlowsState extends State<EnergyFlows> {
   @override
   Widget build(BuildContext context) {
-    double canvasSize = MediaQuery.of(context).size.shortestSide;
+    double canvasSize =
+        widget.size?.shortestSide ?? MediaQuery.of(context).size.shortestSide;
     return SizedBox(
       width: canvasSize,
       height: canvasSize,
@@ -73,7 +76,7 @@ class _EnergyFlowsState extends State<EnergyFlows> {
 
         OuterRail(
           startAngle: math.pi / 6 + 4 * math.pi / 3,
-          startColor:pvColor,
+          startColor: pvColor,
           endColor: gridColor,
           isActive: widget.model.pvToGrid.isPositive,
         ),
@@ -97,7 +100,7 @@ class _EnergyFlowsState extends State<EnergyFlows> {
   }
 
   Stack _iconGroup(context) {
-    Size size = MediaQuery.of(context).size;
+    Size size =widget.size?? MediaQuery.of(context).size;
 
     return Stack(children: [
       for (int i = 0; i < iconModels.length; i++) ...[
@@ -107,6 +110,7 @@ class _EnergyFlowsState extends State<EnergyFlows> {
           child: EnergyFlowsIcon(
             iconModels[i],
             widget.model.powerStates[i],
+            size,
             onTapDown: widget.model.onTaps[i],
             themeMode: widget.model.themeMode,
           ),
@@ -117,16 +121,16 @@ class _EnergyFlowsState extends State<EnergyFlows> {
             child: IgnorePointer(
               child: Container(
                   decoration: const BoxDecoration(shape: BoxShape.circle),
-                  width: MediaQuery.of(context).size.shortestSide / 5,
-                  height: MediaQuery.of(context).size.shortestSide / 5,
+                  width: size.shortestSide / 5,
+                  height: size.shortestSide / 5,
                   child: Column(
                     children: [
                       SizedBox(
-                          width: MediaQuery.of(context).size.shortestSide / 7.5,
+                          width: size.shortestSide / 7.5,
                           height:
-                              MediaQuery.of(context).size.shortestSide / 7.5,
+                              size.shortestSide / 7.5,
                           child: widget.model.icons[i]),
-                      Center(child: Text(widget.model.powerValues[i])),
+                      Center(child: Text(widget.model.powerValues[i], style: TextStyle(fontSize: size.shortestSide / 27.5),)),
                     ],
                   )),
             )),

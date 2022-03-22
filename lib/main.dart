@@ -54,7 +54,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         ),
         body: Container(
           // color: Colors.b,
-          child: EnergyFlows(model: model),
+          child: EnergyFlows(
+            // size: Size(300,500),
+            model: model),
         ));
   }
 }

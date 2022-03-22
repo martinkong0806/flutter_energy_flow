@@ -20,8 +20,8 @@ const Color pvColor = Color(0xfff8dd6c);
 const Color loadColor = Color(0xff4fbba9);
 const Color batColor = Color(0xff233c7b);
 const Color gridColor = Color(0xffeb5b56);
-const Color activeRailColor = Color(0xffe2e3e3);
-const Color inactiveRailColor = Color(0xfff6f7f7);
+const Color activeRailColor = Color(0xffa2a3a3);
+const Color inactiveRailColor = Color(0xffe3e2e3);
 
 const List<EnergyFlowsIconModel> iconModels = [
   EnergyFlowsIconModel(

@@ -11,13 +11,15 @@ part 'model/energy_flows_icon_model.dart';
 class EnergyFlowsIcon extends StatefulWidget {
   final EnergyFlowsIconModel _model;
   final bool _isActive;
+  final Size _size;
   final void Function(TapDownDetails)? onTapDown;
   final ThemeMode themeMode;
 
-  const EnergyFlowsIcon(EnergyFlowsIconModel model, bool isActive,
+  const EnergyFlowsIcon(EnergyFlowsIconModel model, bool isActive, Size size,
       {Key? key, this.onTapDown, required this.themeMode})
       : _model = model,
         _isActive = isActive,
+        _size = size,
         super(key: key);
 
   @override
@@ -63,7 +65,7 @@ class _EnergyFlowsIconState extends State<EnergyFlowsIcon>
 
   @override
   Widget build(BuildContext context) {
-    double canvasSize = MediaQuery.of(context).size.shortestSide / 5;
+    double canvasSize = widget._size.shortestSide / 5;
     return SizedBox(
         width: canvasSize,
         height: canvasSize,
