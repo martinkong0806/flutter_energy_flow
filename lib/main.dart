@@ -52,8 +52,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         appBar: AppBar(
           title: Text(widget.title),
         ),
-        body: Container(
-          // color: Colors.b,
+        body: SizedBox(
+          width: 200,
+          height: 200,
+
+        
           child: EnergyFlows(
             // size: Size(300,500),
             model: model),

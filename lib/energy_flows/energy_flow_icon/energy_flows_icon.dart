@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'dart:math' as math;
@@ -66,20 +68,25 @@ class _EnergyFlowsIconState extends State<EnergyFlowsIcon>
   @override
   Widget build(BuildContext context) {
     double canvasSize = widget._size.shortestSide / 5;
-    return SizedBox(
-        width: canvasSize,
-        height: canvasSize,
-        child: GestureDetector(
-          onTapDown: widget.onTapDown,
-          child: CustomPaint(
-              painter: EnergyFlowsIconPaint(
-            color: model.color,
-            offsetDistanceRatio: model.offsetDistanceRatio,
-            offsetDirection: model.offsetDirection,
-            glow: glowAnimation.value,
-            isActive: widget._isActive,
-            themeMode: widget.themeMode,
-          )),
-        ));
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      // print(constraints.minHeight);
+      // double canvasSize = min(constraints.maxHeight, constraints.maxWidth)/5;
+      return SizedBox(
+          width: canvasSize,
+          height: canvasSize,
+          child: GestureDetector(
+            onTapDown: widget.onTapDown,
+            child: CustomPaint(
+                painter: EnergyFlowsIconPaint(
+              color: model.color,
+              offsetDistanceRatio: model.offsetDistanceRatio,
+              offsetDirection: model.offsetDirection,
+              glow: glowAnimation.value,
+              isActive: widget._isActive,
+              themeMode: widget.themeMode,
+            )),
+          ));
+    });
   }
 }

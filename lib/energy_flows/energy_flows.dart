@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_energy_flows/energy_flows/model/energy_flow_model.dart';
 
@@ -27,16 +29,20 @@ class _EnergyFlowsState extends State<EnergyFlows> {
   Widget build(BuildContext context) {
     double canvasSize =
         widget.size?.shortestSide ?? MediaQuery.of(context).size.shortestSide;
-    return SizedBox(
-      width: canvasSize,
-      height: canvasSize,
-      child: Stack(
-        children: [
-          _railGroup(context),
-          _iconGroup(context),
-        ],
-      ),
-    );
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+
+      return SizedBox(
+        width: canvasSize,
+        height: canvasSize,
+        child: Stack(
+          children: [
+            _railGroup(context),
+            _iconGroup(context, constraints),
+          ],
+        ),
+      );
+    });
   }
 
   Stack _railGroup(context) {
@@ -99,8 +105,9 @@ class _EnergyFlowsState extends State<EnergyFlows> {
     );
   }
 
-  Stack _iconGroup(context) {
-    Size size =widget.size?? MediaQuery.of(context).size;
+  Stack _iconGroup(BuildContext context, BoxConstraints constraints) {
+    double s = min(constraints.maxWidth,constraints.maxHeight);
+    Size size = Size(s, s);
 
     return Stack(children: [
       for (int i = 0; i < iconModels.length; i++) ...[
@@ -127,10 +134,13 @@ class _EnergyFlowsState extends State<EnergyFlows> {
                     children: [
                       SizedBox(
                           width: size.shortestSide / 7.5,
-                          height:
-                              size.shortestSide / 7.5,
+                          height: size.shortestSide / 7.5,
                           child: widget.model.icons[i]),
-                      Center(child: Text(widget.model.powerValues[i], style: TextStyle(fontSize: size.shortestSide / 27.5),)),
+                      Center(
+                          child: Text(
+                        widget.model.powerValues[i],
+                        style: TextStyle(fontSize: size.shortestSide / 27.5),
+                      )),
                     ],
                   )),
             )),
