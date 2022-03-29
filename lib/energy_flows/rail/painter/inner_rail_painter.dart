@@ -36,7 +36,7 @@ class InnerRailPainter extends CustomPainter {
     /// energy blob is around, and it the part of rail glows.
 
     /// This value show the fraction of the line path that is highlighted
-    const double highlightRailProportion = 1 / 4;
+    const double highlightRailProportion = 1 / 5;
     // Find the distance of the highlight rail
     final double highlightRailDistance =
         (startOffset + endOffset).distance * highlightRailProportion;
