@@ -7,6 +7,7 @@ import './energy_flow_icon/energy_flows_icon.dart';
 
 import 'dart:math' as math;
 
+import 'energy_flow_icon/apperance/energy_flow_appearance.dart';
 import 'rail/inner_rail.dart';
 import 'rail/outer_rail.dart';
 
@@ -14,11 +15,16 @@ part 'utils/utils.dart';
 part 'constants/constants.dart';
 
 class EnergyFlows extends StatefulWidget {
-  const EnergyFlows({Key? key, required this.model, this.size})
+  const EnergyFlows(
+      {Key? key,
+      required this.model,
+      this.appearance = EnergyFlowAppearance.light,
+      this.size})
       : super(key: key);
   final Size? size;
 
   final EnergyFlowModel model;
+  final EnergyFlowAppearance appearance;
 
   @override
   State<EnergyFlows> createState() => _EnergyFlowsState();
@@ -31,7 +37,6 @@ class _EnergyFlowsState extends State<EnergyFlows> {
         widget.size?.shortestSide ?? MediaQuery.of(context).size.shortestSide;
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-
       return SizedBox(
         width: canvasSize,
         height: canvasSize,
@@ -56,6 +61,7 @@ class _EnergyFlowsState extends State<EnergyFlows> {
           isActive: widget.model.pvToLoad.isPositive,
           startColor: loadColor,
           endColor: pvColor,
+          appearance: widget.appearance,
         ),
 
         OuterRail(
@@ -64,6 +70,7 @@ class _EnergyFlowsState extends State<EnergyFlows> {
           endColor: pvColor,
           reverse: true,
           isActive: widget.model.pvToBat.isPositive,
+          appearance: widget.appearance,
         ),
 
         OuterRail(
@@ -72,12 +79,14 @@ class _EnergyFlowsState extends State<EnergyFlows> {
           endColor: batColor,
           reverse: true,
           isActive: widget.model.batToGrid.isPositive,
+          appearance: widget.appearance,
         ),
         OuterRail(
           startAngle: math.pi / 6,
           startColor: gridColor,
           endColor: batColor,
           isActive: widget.model.gridToBat.isPositive,
+          appearance: widget.appearance,
         ),
 
         OuterRail(
@@ -85,6 +94,7 @@ class _EnergyFlowsState extends State<EnergyFlows> {
           startColor: pvColor,
           endColor: gridColor,
           isActive: widget.model.pvToGrid.isPositive,
+          appearance: widget.appearance,
         ),
         InnerRail(
           offsetDistanceRatio: 3 / 4,
@@ -92,6 +102,7 @@ class _EnergyFlowsState extends State<EnergyFlows> {
           isActive: widget.model.batToLoad.isPositive,
           startColor: loadColor,
           endColor: batColor,
+          appearance: widget.appearance,
         ),
 
         InnerRail(
@@ -100,13 +111,14 @@ class _EnergyFlowsState extends State<EnergyFlows> {
           isActive: widget.model.gridToLoad.isPositive,
           startColor: loadColor,
           endColor: gridColor,
+          appearance: widget.appearance,
         ),
       ],
     );
   }
 
   Stack _iconGroup(BuildContext context, BoxConstraints constraints) {
-    double s = min(constraints.maxWidth,constraints.maxHeight);
+    double s = min(constraints.maxWidth, constraints.maxHeight);
     Size size = Size(s, s);
 
     return Stack(children: [
@@ -120,6 +132,7 @@ class _EnergyFlowsState extends State<EnergyFlows> {
             size,
             onTapDown: widget.model.onTaps[i],
             themeMode: widget.model.themeMode,
+            appearance: widget.appearance,
           ),
         ),
         Positioned(

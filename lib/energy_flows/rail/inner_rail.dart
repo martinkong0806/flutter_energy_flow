@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_energy_flows/energy_flows/energy_flow_icon/apperance/energy_flow_appearance.dart';
 
 import 'dart:math' as math;
 
@@ -14,6 +15,7 @@ class InnerRail extends StatefulWidget {
     required this.isActive,
     required this.startColor,
     required this.endColor,
+    required this.appearance,
     this.reverse = true,
   }) : super(key: key);
 
@@ -23,6 +25,7 @@ class InnerRail extends StatefulWidget {
   final Color startColor;
   final Color endColor;
   final bool reverse;
+  final EnergyFlowAppearance appearance;
 
   @override
   State<InnerRail> createState() => _InnerRailState();
@@ -130,6 +133,7 @@ class _InnerRailState extends State<InnerRail> with TickerProviderStateMixin {
                 progress: progressAnimation.value,
                 color: colorAnimation.value,
                 glowScale: glowScaleAnimation.value,
-                isActive: widget.isActive)));
+                isActive: widget.isActive,
+                appearance: widget.appearance)));
   }
 }

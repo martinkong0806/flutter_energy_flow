@@ -1,8 +1,9 @@
 part of '../outer_rail.dart';
 
 class OuterRailPainter extends CustomPainter {
-  double rotation, startAngle, sweepAngle, glowScale;
+  final double rotation, startAngle, sweepAngle, glowScale;
   final bool isActive;
+  final EnergyFlowAppearance appearance;
 
   Color? color;
 
@@ -12,7 +13,8 @@ class OuterRailPainter extends CustomPainter {
       required this.rotation,
       required this.color,
       required this.glowScale,
-      required this.isActive});
+      required this.isActive,
+      required this.appearance});
 
   /// The size of the glow is measured in radians
   final double glowSize = math.pi / 4;
@@ -25,18 +27,18 @@ class OuterRailPainter extends CustomPainter {
     final double railRadius = size.shortestSide / 2.5;
 
     final Paint railPaint = Paint()
-      ..color = isActive ? activeRailColor : inactiveRailColor
+      ..color =
+          isActive ? appearance.activeRailColor : appearance.inactiveRailColor
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke;
-
 
     //  Background Rail
     canvas.drawArc(Rect.fromCircle(center: center, radius: railRadius),
         startAngle, sweepAngle, false, railPaint);
 
     ///Highlighted Rail
-    if(isActive){
+    if (isActive) {
       canvas.drawArc(
           Rect.fromCircle(center: center, radius: railRadius),
           rotation + glowOffset,
@@ -56,9 +58,9 @@ class OuterRailPainter extends CustomPainter {
                 ],
                 colors: [
                   Colors.transparent,
-                  activeRailColor,
+                  appearance.activeRailColor,
                   color ?? Colors.white,
-                  activeRailColor,
+                  appearance.activeRailColor,
                   Colors.transparent,
                 ]).createShader(
                 Rect.fromCircle(center: center, radius: railRadius)));

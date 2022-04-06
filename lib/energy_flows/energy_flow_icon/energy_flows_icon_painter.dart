@@ -12,6 +12,7 @@ class EnergyFlowsIconPaint extends CustomPainter {
   final double glow;
   final bool isActive;
   final ThemeMode themeMode;
+  final EnergyFlowAppearance appearance;
 
   EnergyFlowsIconPaint(
       {required this.color,
@@ -19,7 +20,8 @@ class EnergyFlowsIconPaint extends CustomPainter {
       required this.offsetDirection,
       required this.glow,
       required this.isActive,
-      required this.themeMode});
+      required this.themeMode,
+      required this.appearance});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -52,7 +54,7 @@ extension CutsomCanvasUtils on Canvas {
     }
     if (themeMode == ThemeMode.light) {
       drawCircle(c, radius, Paint()..color = Colors.white);
-    }else{
+    } else {
       drawCircle(c, radius, Paint()..color = Colors.black);
     }
   }

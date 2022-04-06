@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_energy_flows/energy_flows/energy_flow_icon/apperance/energy_flow_appearance.dart';
 
 import 'dart:math' as math;
 
@@ -10,8 +11,10 @@ class OuterRail extends StatefulWidget {
   final double startAngle, sweepAngle;
   final Color startColor, endColor;
   final bool reverse, isActive;
+  final EnergyFlowAppearance appearance;
   const OuterRail(
       {Key? key,
+      required this.appearance,
       required this.startAngle,
       this.sweepAngle = 2 * math.pi / 3,
       required this.startColor,
@@ -127,6 +130,8 @@ class _OuterRailState extends State<OuterRail> with TickerProviderStateMixin {
                 rotation: rotationAnimation.value,
                 color: colorAnimation.value,
                 glowScale: glowScaleAnimation.value,
-                isActive: widget.isActive)));
+                isActive: widget.isActive,
+                appearance: widget.appearance,
+        )));
   }
 }

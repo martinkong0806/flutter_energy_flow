@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_energy_flows/energy_flows/energy_flow_icon/apperance/energy_flow_appearance.dart';
 import 'package:flutter_energy_flows/energy_flows/model/energy_flow_model.dart';
 
 import 'energy_flows/energy_flows.dart';
@@ -40,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     EnergyFlowModel model = EnergyFlowModel(
-        pvPower: 28762,
+        pvPower: 2762,
         batPower: 50,
         // loadPowerC: 20,
         gridPower: -500,
@@ -52,14 +53,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         appBar: AppBar(
           title: Text(widget.title),
         ),
-        body: SizedBox(
-          width: 200,
-          height: 200,
+        body: 
 
         
-          child: EnergyFlows(
-            // size: Size(300,500),
-            model: model),
-        ));
+          Container(
+            color: Colors.black,
+            child: EnergyFlows(
+
+              appearance: EnergyFlowAppearance.dark,
+              model: model),
+          ),
+        );
   }
 }

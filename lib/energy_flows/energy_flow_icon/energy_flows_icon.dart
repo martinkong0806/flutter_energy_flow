@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_energy_flows/energy_flows/energy_flow_icon/apperance/energy_flow_appearance.dart';
 
 import 'dart:math' as math;
 
@@ -16,9 +17,13 @@ class EnergyFlowsIcon extends StatefulWidget {
   final Size _size;
   final void Function(TapDownDetails)? onTapDown;
   final ThemeMode themeMode;
+  final EnergyFlowAppearance appearance;
 
   const EnergyFlowsIcon(EnergyFlowsIconModel model, bool isActive, Size size,
-      {Key? key, this.onTapDown, required this.themeMode})
+      {Key? key,
+      this.onTapDown,
+      required this.themeMode,
+      required this.appearance})
       : _model = model,
         _isActive = isActive,
         _size = size,
@@ -85,6 +90,7 @@ class _EnergyFlowsIconState extends State<EnergyFlowsIcon>
               glow: glowAnimation.value,
               isActive: widget._isActive,
               themeMode: widget.themeMode,
+              appearance: widget.appearance,
             )),
           ));
     });

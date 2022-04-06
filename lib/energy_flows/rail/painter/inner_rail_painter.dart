@@ -7,6 +7,7 @@ class InnerRailPainter extends CustomPainter {
   final Color? color;
   final double glowScale;
   final bool isActive;
+  final EnergyFlowAppearance appearance;
 
   InnerRailPainter(
       {required this.offsetDistanceRatio,
@@ -14,9 +15,8 @@ class InnerRailPainter extends CustomPainter {
       required this.progress,
       required this.color,
       required this.glowScale,
-      required this.isActive});
-
-  
+      required this.isActive,
+      required this.appearance});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -24,7 +24,7 @@ class InnerRailPainter extends CustomPainter {
     final Offset endOffset = startOffset.toDistance(
         offsetDirection, offsetDistanceRatio * size.shortestSide / 2);
     final Paint railPaint = Paint()
-      ..color = isActive? activeRailColor : inactiveRailColor
+      ..color = isActive ? appearance.activeRailColor : appearance.inactiveRailColor
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke;
@@ -75,9 +75,9 @@ class InnerRailPainter extends CustomPainter {
                 ],
                 colors: [
                   Colors.transparent,
-                  activeRailColor,
+                  appearance.activeRailColor,
                   color ?? Colors.white,
-                  activeRailColor,
+                  appearance.activeRailColor,
                   Colors.transparent,
                 ]).createShader(Rect.fromPoints(
                 highlightedRailStartOffset, highlightedRailEndOffset)));
