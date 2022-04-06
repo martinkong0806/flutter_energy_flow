@@ -50,19 +50,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           print(details.globalPosition);
         });
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: 
-
-        
-          Container(
-            color: Colors.black,
-            child: EnergyFlows(
-
-              appearance: EnergyFlowAppearance.dark,
-              model: model),
-          ),
-        );
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: EnergyFlows(appearance: EnergyFlowAppearance.light, model: model),
+    );
   }
 }
