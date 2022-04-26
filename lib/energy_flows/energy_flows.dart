@@ -72,7 +72,7 @@ class _EnergyFlowsState extends State<EnergyFlows> {
           isActive: widget.model.pvToBat.isPositive,
           appearance: widget.appearance,
         ),
-
+        if(widget.model.batToGrid.isPositive)
         OuterRail(
           startAngle: math.pi / 6,
           startColor: gridColor,
@@ -81,6 +81,8 @@ class _EnergyFlowsState extends State<EnergyFlows> {
           isActive: widget.model.batToGrid.isPositive,
           appearance: widget.appearance,
         ),
+
+        if (widget.model.gridToBat.isPositive)
         OuterRail(
           startAngle: math.pi / 6,
           startColor: gridColor,
