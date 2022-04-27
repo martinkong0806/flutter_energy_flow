@@ -91,6 +91,15 @@ class _EnergyFlowsState extends State<EnergyFlows> {
           appearance: widget.appearance,
         ),
 
+        if (!widget.model.gridToBat.isPositive && !widget.model.batToGrid.isPositive)
+          OuterRail(
+            startAngle: math.pi / 6,
+            startColor: gridColor,
+            endColor: batColor,
+            isActive: widget.model.gridToBat.isPositive,
+            appearance: widget.appearance,
+          ),
+
         OuterRail(
           startAngle: math.pi / 6 + 4 * math.pi / 3,
           startColor: pvColor,
