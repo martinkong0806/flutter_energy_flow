@@ -125,9 +125,9 @@ class _InnerRailState extends State<InnerRail> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    progressController?.dispose();
-    colorController?.dispose();
-    glowScaleController?.dispose();
+    progressController!.dispose();
+    colorController!.dispose();
+    glowScaleController!.dispose();
     super.dispose();
   }
 
