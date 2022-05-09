@@ -47,6 +47,12 @@ class _InnerRailState extends State<InnerRail> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    _setAnimation();
+
+    super.initState();
+  }
+
+  void _setAnimation() {
     if (!widget.reverse) {
       _progressTween = Tween(begin: 0, end: 1);
       _colorTween = ColorTween(begin: widget.startColor, end: widget.endColor);
@@ -109,8 +115,12 @@ class _InnerRailState extends State<InnerRail> with TickerProviderStateMixin {
       });
 
     colorController.forward();
+  }
 
-    super.initState();
+  @override
+  void didUpdateWidget(covariant InnerRail oldWidget) {
+    _setAnimation();
+    super.didUpdateWidget(oldWidget);
   }
 
   @override

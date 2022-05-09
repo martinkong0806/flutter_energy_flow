@@ -41,14 +41,19 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     EnergyFlowModel model = EnergyFlowModel(
-        pvPower: 2762,
-        batPower: 50,
+        pvPower: 1548,
+        batPower: 29,
         // loadPowerC: 20,
-        gridPower: -500,
+        gridPower: 1412,
+        // pvPower: 2307,
+        // batPower: -2549,
+        // // loadPowerC: 20,
+        // gridPower: -5000,
         displayAsUnsigned: true,
         onPvTap: (TapDownDetails details) {
           print(details.globalPosition);
         });
+    print(model.pvToBat);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),

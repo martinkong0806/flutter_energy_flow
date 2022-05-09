@@ -42,6 +42,19 @@ class _OuterRailState extends State<OuterRail> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    _setAnimation();
+
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant OuterRail oldWidget) {
+    _setAnimation();
+
+    super.didUpdateWidget(oldWidget);
+  }
+
+  void _setAnimation() {
     if (!widget.reverse) {
       _rotationTween = Tween(
           begin: widget.startAngle, end: widget.sweepAngle + widget.startAngle);
@@ -106,8 +119,6 @@ class _OuterRailState extends State<OuterRail> with TickerProviderStateMixin {
       });
 
     colorController.forward();
-
-    super.initState();
   }
 
   @override
@@ -125,13 +136,13 @@ class _OuterRailState extends State<OuterRail> with TickerProviderStateMixin {
         height: double.infinity,
         child: CustomPaint(
             painter: OuterRailPainter(
-                startAngle: widget.startAngle,
-                sweepAngle: widget.sweepAngle,
-                rotation: rotationAnimation.value,
-                color: colorAnimation.value,
-                glowScale: glowScaleAnimation.value,
-                isActive: widget.isActive,
-                appearance: widget.appearance,
+          startAngle: widget.startAngle,
+          sweepAngle: widget.sweepAngle,
+          rotation: rotationAnimation.value,
+          color: colorAnimation.value,
+          glowScale: glowScaleAnimation.value,
+          isActive: widget.isActive,
+          appearance: widget.appearance,
         )));
   }
 }

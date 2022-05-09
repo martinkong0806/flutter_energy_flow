@@ -92,10 +92,11 @@ class EnergyFlowModel {
 
   double get pvToLoad => isValid ? min(pvPower, loadPower) : 0;
 
-  double get pvToBat => isValid ? min(-batPower, pvPower - pvToLoad) : 0;
+  double get pvToBat =>
+      isValid ? min(max(-batPower, 0), pvPower - pvToLoad) : 0;
 
   double get pvToGrid =>
-      isValid ? min(gridPower, pvPower - loadPower - batPower) : 0;
+      isValid ? min(gridPower, pvPower - pvToLoad - pvToBat) : 0;
 
   double get batToLoad => isValid ? min(batPower, loadPower - pvToLoad) : 0;
 

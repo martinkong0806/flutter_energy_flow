@@ -60,6 +60,16 @@ void main() {
     expect(model.gridToBat, 2500);
   });
 
+  test("random test 1", () {
+    EnergyFlowModel model =
+        EnergyFlowModel(pvPower: 2007, gridPower: 4246, batPower: 2549);
+    expect(model.loadPower, 310);
+    expect(model.pvToBat, 0);
+    expect(model.pvToGrid, 1697);
+    // expect(model.gridToLoad, 500);
+    // expect(model.gridToBat, 2500);
+  });
+
   test("powerValuesAsString()", (() {
     EnergyFlowModel model = EnergyFlowModel();
     expect(model.powerValuesAsString(250), "250 W");

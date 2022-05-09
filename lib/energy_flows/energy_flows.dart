@@ -33,6 +33,7 @@ class EnergyFlows extends StatefulWidget {
 class _EnergyFlowsState extends State<EnergyFlows> {
   @override
   Widget build(BuildContext context) {
+    print(widget.model.gridToBat.isPositive);
     double canvasSize =
         widget.size?.shortestSide ?? MediaQuery.of(context).size.shortestSide;
     return LayoutBuilder(
@@ -72,26 +73,28 @@ class _EnergyFlowsState extends State<EnergyFlows> {
           isActive: widget.model.pvToBat.isPositive,
           appearance: widget.appearance,
         ),
-        if(widget.model.batToGrid.isPositive)
-        OuterRail(
-          startAngle: math.pi / 6,
-          startColor: gridColor,
-          endColor: batColor,
-          reverse: true,
-          isActive: widget.model.batToGrid.isPositive,
-          appearance: widget.appearance,
-        ),
+
+        if (widget.model.batToGrid.isPositive)
+          OuterRail(
+            startAngle: math.pi / 6,
+            startColor: gridColor,
+            endColor: batColor,
+            reverse: true,
+            isActive: widget.model.batToGrid.isPositive,
+            appearance: widget.appearance,
+          ),
 
         if (widget.model.gridToBat.isPositive)
-        OuterRail(
-          startAngle: math.pi / 6,
-          startColor: gridColor,
-          endColor: batColor,
-          isActive: widget.model.gridToBat.isPositive,
-          appearance: widget.appearance,
-        ),
+          OuterRail(
+            startAngle: math.pi / 6,
+            startColor: gridColor,
+            endColor: batColor,
+            isActive: widget.model.gridToBat.isPositive,
+            appearance: widget.appearance,
+          ),
 
-        if (!widget.model.gridToBat.isPositive && !widget.model.batToGrid.isPositive)
+        if (!widget.model.gridToBat.isPositive &&
+            !widget.model.batToGrid.isPositive)
           OuterRail(
             startAngle: math.pi / 6,
             startColor: gridColor,
