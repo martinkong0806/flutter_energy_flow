@@ -36,9 +36,9 @@ class _InnerRailState extends State<InnerRail> with TickerProviderStateMixin {
   late Animation<Color?> colorAnimation;
   late Animation<double> glowScaleAnimation;
 
-  AnimationController? progressController;
-  AnimationController? colorController;
-  AnimationController? glowScaleController;
+  late AnimationController progressController;
+  late AnimationController colorController;
+  late AnimationController glowScaleController;
 
   late Tween<double> _progressTween;
 
@@ -47,6 +47,21 @@ class _InnerRailState extends State<InnerRail> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    progressController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 4),
+    );
+
+    glowScaleController = AnimationController(
+      vsync: this,
+      duration: ENERGY_BLOB_GLOW_SCALE_DURATION,
+    );
+
+    colorController = AnimationController(
+      vsync: this,
+      duration: ENERGY_BLOB_GLOW_COLOR_DURATION,
+    );
+
     _setAnimation();
 
     super.initState();
@@ -64,57 +79,51 @@ class _InnerRailState extends State<InnerRail> with TickerProviderStateMixin {
     _glowScaleTween = Tween(
         begin: ENERGY_BLOB_GLOW_SCALE_MIN, end: ENERGY_BLOB_GLOW_SCALE_MAX);
 
-    progressController =
-        AnimationController(vsync: this, duration: const Duration(seconds: 4), value: progressController?.value);
-
-    glowScaleController = AnimationController(
-        vsync: this, duration: ENERGY_BLOB_GLOW_SCALE_DURATION, value: glowScaleController?.value);
-
-    colorController = AnimationController(
-        vsync: this, duration: ENERGY_BLOB_GLOW_COLOR_DURATION, value: colorController?.value);
-
-    progressAnimation = _progressTween.animate(progressController!)
+    progressAnimation = _progressTween
+        .animate(progressController..value = progressController.value)
       ..addListener(() {
         setState(() {});
       })
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
-          progressController!.repeat();
+          progressController.repeat();
         } else if (status == AnimationStatus.dismissed) {
-          progressController!.forward();
+          progressController.forward();
         }
       });
 
-    progressController!.forward();
+    progressController.forward();
 
-    glowScaleAnimation = _glowScaleTween.animate(glowScaleController!)
+    glowScaleAnimation = _glowScaleTween
+        .animate(glowScaleController..value = glowScaleController.value)
       ..addListener(() {
         setState(() {});
       })
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
-          glowScaleController!.repeat(reverse: true);
+          glowScaleController.repeat(reverse: true);
         } else if (status == AnimationStatus.dismissed) {
-          glowScaleController!.forward();
+          glowScaleController.forward();
         }
       });
 
-    glowScaleController!.forward();
+    glowScaleController.forward();
 
-    colorAnimation = _colorTween
-        .animate(colorController!.drive(CurveTween(curve: Curves.easeInOutExpo)))
+    colorAnimation = _colorTween.animate((colorController
+          ..value = colorController.value)
+        .drive(CurveTween(curve: Curves.easeInOutExpo)))
       ..addListener(() {
         setState(() {});
       })
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
-          colorController!.repeat();
+          colorController.repeat();
         } else if (status == AnimationStatus.dismissed) {
-          colorController!.forward();
+          colorController.forward();
         }
       });
 
-    colorController!.forward();
+    colorController.forward();
   }
 
   @override
@@ -125,9 +134,9 @@ class _InnerRailState extends State<InnerRail> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    progressController!.dispose();
-    colorController!.dispose();
-    glowScaleController!.dispose();
+    progressController.dispose();
+    colorController.dispose();
+    glowScaleController.dispose();
     super.dispose();
   }
 

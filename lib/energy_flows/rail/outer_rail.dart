@@ -32,9 +32,9 @@ class _OuterRailState extends State<OuterRail> with TickerProviderStateMixin {
   late Animation<Color?> colorAnimation;
   late Animation<double> glowScaleAnimation;
 
-  AnimationController? rotationController;
-  AnimationController? colorController;
-  AnimationController? glowScaleController;
+  late AnimationController rotationController;
+  late AnimationController colorController;
+  late AnimationController glowScaleController;
 
   late Tween<double> _rotationTween;
   late ColorTween _colorTween;
@@ -42,24 +42,28 @@ class _OuterRailState extends State<OuterRail> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    _setAnimation(isInit: true);
+    rotationController = AnimationController(
+        vsync: this, duration: ENERGY_BLOB_GLOW_COLOR_DURATION);
+
+    glowScaleController = AnimationController(
+        vsync: this, duration: ENERGY_BLOB_GLOW_SCALE_DURATION);
+
+    colorController = AnimationController(
+        vsync: this, duration: ENERGY_BLOB_GLOW_COLOR_DURATION);
+    _setAnimation();
 
     super.initState();
   }
 
   @override
   void didUpdateWidget(covariant OuterRail oldWidget) {
-    // if (oldWidget.isActive != widget.isActive) {
-    //   ;
 
-    // }
-    print(rotationAnimation.value);
     _setAnimation();
 
     super.didUpdateWidget(oldWidget);
   }
 
-  void _setAnimation({bool isInit = false}) {
+  void _setAnimation() {
     if (!widget.reverse) {
       _rotationTween = Tween(
           begin: widget.startAngle, end: widget.sweepAngle + widget.startAngle);
@@ -73,64 +77,57 @@ class _OuterRailState extends State<OuterRail> with TickerProviderStateMixin {
     _glowScaleTween = Tween(
         begin: ENERGY_BLOB_GLOW_SCALE_MIN, end: ENERGY_BLOB_GLOW_SCALE_MAX);
 
-    rotationController = AnimationController(
-        vsync: this, duration: ENERGY_BLOB_GLOW_COLOR_DURATION, value: rotationController?.value );
+    
 
-    glowScaleController = AnimationController(
-        vsync: this, duration: ENERGY_BLOB_GLOW_SCALE_DURATION, value:  glowScaleController?.value );
-
-    colorController = AnimationController(
-        vsync: this, duration: ENERGY_BLOB_GLOW_COLOR_DURATION, value:  colorController?.value );
-
-    rotationAnimation = _rotationTween.animate(rotationController!)
+    rotationAnimation = _rotationTween.animate(rotationController)
       ..addListener(() {
         setState(() {});
       })
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
-          rotationController!.repeat();
+          rotationController.repeat();
         } else if (status == AnimationStatus.dismissed) {
-          rotationController!.forward();
+          rotationController.forward();
         }
       });
 
-    glowScaleAnimation = _glowScaleTween.animate(glowScaleController!)
+    glowScaleAnimation = _glowScaleTween.animate(glowScaleController)
       ..addListener(() {
         setState(() {});
       })
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
-          glowScaleController!.repeat(reverse: true);
+          glowScaleController.repeat(reverse: true);
         } else if (status == AnimationStatus.dismissed) {
-          glowScaleController!.forward();
+          glowScaleController.forward();
         }
       });
 
     colorAnimation = _colorTween
-        .animate(colorController!.drive(CurveTween(curve: Curves.easeInOutExpo)))
+        .animate(colorController.drive(CurveTween(curve: Curves.easeInOutExpo)))
       ..addListener(() {
         setState(() {});
       })
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
-          colorController!.repeat();
+          colorController.repeat();
         } else if (status == AnimationStatus.dismissed) {
-          colorController!.forward();
+          colorController.forward();
         }
       });
 
-    rotationController!.forward();
+    rotationController.forward();
 
-    glowScaleController!.forward();
+    glowScaleController.forward();
 
-    colorController!.forward();
+    colorController.forward();
   }
 
   @override
   void dispose() {
-    rotationController!.dispose();
-    colorController!.dispose();
-    glowScaleController!.dispose();
+    rotationController.dispose();
+    colorController.dispose();
+    glowScaleController.dispose();
     super.dispose();
   }
 

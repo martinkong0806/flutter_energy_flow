@@ -33,7 +33,6 @@ class EnergyFlows extends StatefulWidget {
 class _EnergyFlowsState extends State<EnergyFlows> {
   @override
   Widget build(BuildContext context) {
-    print(widget.model.gridToBat.isPositive);
     double canvasSize =
         widget.size?.shortestSide ?? MediaQuery.of(context).size.shortestSide;
     return LayoutBuilder(
