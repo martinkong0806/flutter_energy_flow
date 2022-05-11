@@ -8,6 +8,7 @@ class EnergyFlowModel {
       this.batPower = 0,
       this.gridPower = 0,
       this.loadPowerC,
+      this.displayKiloWattsAsSmallest = true,
       this.pvIcon,
       this.loadIcon,
       this.batIcon,
@@ -32,6 +33,8 @@ class EnergyFlowModel {
   ///  the load power will be calaulated. The value is not
   /// involved in calcuation.
   final double? loadPowerC;
+
+  final bool displayKiloWattsAsSmallest;
 
   final Widget? pvIcon, loadIcon, batIcon, gridIcon;
 
@@ -64,14 +67,18 @@ class EnergyFlowModel {
 
   String powerValuesAsString(double value) {
     if (displayAsUnsigned) value = value.abs();
+    
     String unit = "W";
-    if (value < pow(10, 4)) return value.toInt().toString() + " " + unit;
-    if (value < pow(10, 7)) {
-      unit = "kW";
-      value /= 1000;
-    } else {
+    if (value < pow(10, 4) && !displayKiloWattsAsSmallest) {
+      return value.toInt().toString() + " " + unit;
+    }
+    if (value >= pow(10, 7)) {
       unit = "MW";
       value /= 1000 * 1000;
+    } else if (value < pow(10, 7) || displayKiloWattsAsSmallest) {
+      unit = "kW";
+      if(value == 0) return "0" " " + unit;
+      value /= 1000;
     }
 
     int exponent = min(2 - max(log(value), 0) ~/ log(10), 2);
@@ -79,6 +86,7 @@ class EnergyFlowModel {
 
     /// if value is larger than 1000, view without decimal
     if (value >= pow(10, 3)) return value.toInt().toString() + " " + unit;
+    if (value == 0) return '0.01' " " + unit;
     return value.toString() + " " + unit;
   }
 
