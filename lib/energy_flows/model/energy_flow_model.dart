@@ -18,6 +18,7 @@ class EnergyFlowModel {
       this.onBatTap,
       this.onGridTap,
       this.themeMode = ThemeMode.light,
+      this.isDisabled = false,
       this.displayAsUnsigned = true});
 
   /// in Watts
@@ -45,8 +46,10 @@ class EnergyFlowModel {
 
   final ThemeMode themeMode;
 
+  final bool isDisabled;
+
   /// Unlogical power values may occur if the system consist more than 1 inverter
-  bool get isValid => pvPower + batPower - gridPower > 0;
+  bool get isValid => isDisabled? false : pvPower + batPower - gridPower > 0;
 
   double get loadPower => max(pvPower + batPower - gridPower, 0);
 
@@ -66,8 +69,9 @@ class EnergyFlowModel {
   List<Widget?> get icons => [pvIcon, loadIcon, batIcon, gridIcon];
 
   String powerValuesAsString(double value) {
+    if (isDisabled) return '---';
     if (displayAsUnsigned) value = value.abs();
-    
+
     String unit = "W";
     if (value < pow(10, 4) && !displayKiloWattsAsSmallest) {
       return value.toInt().toString() + " " + unit;
@@ -77,7 +81,7 @@ class EnergyFlowModel {
       value /= 1000 * 1000;
     } else if (value < pow(10, 7) || displayKiloWattsAsSmallest) {
       unit = "kW";
-      if(value == 0) return "0" " " + unit;
+      if (value == 0) return "0" " " + unit;
       value /= 1000;
     }
 

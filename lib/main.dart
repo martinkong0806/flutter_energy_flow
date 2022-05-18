@@ -41,7 +41,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     EnergyFlowModel model = EnergyFlowModel(
-      displayKiloWattsAsSmallest: true,
+        isDisabled : true,
+        displayKiloWattsAsSmallest: true,
         pvPower: 2000,
         batPower: 1,
         // loadPowerC: 20,
@@ -51,9 +52,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         // // loadPowerC: 20,
         // gridPower: -5000,
         displayAsUnsigned: true,
-        onPvTap: (TapDownDetails details) {
-
-        });
+        onPvTap: (TapDownDetails details) {});
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
