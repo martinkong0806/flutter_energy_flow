@@ -49,7 +49,7 @@ class EnergyFlowModel {
   final bool isDisabled;
 
   /// Unlogical power values may occur if the system consist more than 1 inverter
-  bool get isValid => isDisabled? false : pvPower + batPower - gridPower > 0;
+  bool get isValid => isDisabled ? false : pvPower + batPower - gridPower > 0;
 
   double get loadPower => max(pvPower + batPower - gridPower, 0);
 
@@ -62,6 +62,31 @@ class EnergyFlowModel {
         batPower,
         gridPower
       ].map(powerValuesAsString).toList();
+
+  bool get isPvActive => isValid && pvPower.isPositive;
+
+  bool get isLoadActive => isValid;
+
+  bool get isBatActive => isValid && batPower != 0;
+
+  bool get isGridActive => isValid && gridPower != 0;
+
+  double get pvToLoad => isValid ? min(pvPower, loadPower) : 0;
+
+  double get pvToBat =>
+      isValid ? min(max(-batPower, 0), pvPower - pvToLoad) : 0;
+
+  double get pvToGrid =>
+      isValid ? min(gridPower, pvPower - pvToLoad - pvToBat) : 0;
+
+  double get batToLoad => isValid ? min(batPower, loadPower - pvToLoad) : 0;
+
+  double get batToGrid => isValid ? max(batPower - batToLoad, 0) : 0;
+
+  double get gridToLoad =>
+      isValid ? min(-gridPower, max(loadPower - pvToLoad - pvToBat, 0)) : 0;
+
+  double get gridToBat => isValid ? max(-gridPower - gridToLoad, 0) : 0;
 
   List<void Function(TapDownDetails)?> get onTaps =>
       [onPvTap, onLoadTap, onBatTap, onGridTap];
@@ -94,30 +119,44 @@ class EnergyFlowModel {
     return value.toString() + " " + unit;
   }
 
-  bool get isPvActive => isValid && pvPower.isPositive;
-
-  bool get isLoadActive => isValid;
-
-  bool get isBatActive => isValid && batPower != 0;
-
-  bool get isGridActive => isValid && gridPower != 0;
-
-  double get pvToLoad => isValid ? min(pvPower, loadPower) : 0;
-
-  double get pvToBat =>
-      isValid ? min(max(-batPower, 0), pvPower - pvToLoad) : 0;
-
-  double get pvToGrid =>
-      isValid ? min(gridPower, pvPower - pvToLoad - pvToBat) : 0;
-
-  double get batToLoad => isValid ? min(batPower, loadPower - pvToLoad) : 0;
-
-  double get batToGrid => isValid ? max(batPower - batToLoad, 0) : 0;
-
-  double get gridToLoad =>
-      isValid ? min(-gridPower, max(loadPower - pvToLoad - pvToBat, 0)) : 0;
-
-  double get gridToBat => isValid ? max(-gridPower - gridToLoad, 0) : 0;
+  EnergyFlowModel copyWith({
+    double? pvPower,
+    double? batPower,
+    double? gridPower,
+    double? loadPowerC,
+    bool? displayKiloWattsAsSmallest,
+    bool? displayAsUnsigned,
+    bool? isDisabled,
+    Widget? pvIcon,
+    Widget? loadIcon,
+    Widget? batIcon,
+    Widget? gridIcon,
+    void Function(TapDownDetails)? onPvTap,
+    void Function(TapDownDetails)? onLoadTap,
+    void Function(TapDownDetails)? onBatTap,
+    void Function(TapDownDetails)? onGridTap,
+    ThemeMode ? themeMode = ThemeMode.light,
+  }) {
+    return EnergyFlowModel(
+      pvPower: pvPower ?? this.pvPower,
+      batPower: batPower ?? this.batPower,
+      gridPower: gridPower ?? this.gridPower,
+      loadPowerC: loadPowerC,
+      displayKiloWattsAsSmallest:
+          displayKiloWattsAsSmallest ?? this.displayKiloWattsAsSmallest,
+      displayAsUnsigned: displayAsUnsigned ?? this.displayAsUnsigned,
+      isDisabled: isDisabled ?? this.isDisabled,
+      pvIcon: pvIcon,
+      loadIcon: loadIcon,
+      batIcon: batIcon,
+      gridIcon: gridIcon,
+      onPvTap: onPvTap,
+      onLoadTap: onLoadTap,
+      onBatTap: onBatTap,
+      onGridTap: onGridTap,
+      themeMode: themeMode?? this.themeMode
+    );
+  }
 }
 
 extension DoubleExtension on double {
