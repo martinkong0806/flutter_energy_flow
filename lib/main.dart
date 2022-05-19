@@ -41,11 +41,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     EnergyFlowModel model = EnergyFlowModel(
-      displayKiloWattsAsSmallest: true,
       pvPower: 2000,
       batPower: 1,
       // loadPowerC: 20,
-      gridPower: 1412,
+      gridPower: -1412,
       // pvPower: 2307,
       // batPower: -2549,
       // // loadPowerC: 20,
@@ -58,7 +57,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       ),
       body: EnergyFlows(
           appearance: EnergyFlowAppearance.light,
-          model: model.copyWith(onPvTap: (TapDownDetails details) {})),
+          model: model.copyWith(
+            displayKiloWattsAsSmallest: true,
+            // displayAsUnsigned: true,
+            onPvTap: (TapDownDetails details) {})),
     );
   }
 }

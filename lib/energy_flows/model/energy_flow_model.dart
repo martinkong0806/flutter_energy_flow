@@ -41,6 +41,7 @@ class EnergyFlowModel {
 
   final void Function(TapDownDetails)? onPvTap, onLoadTap, onBatTap, onGridTap;
 
+  /// TODO, this flag is will casue bug currently, scheduled to fix.
   /// Show power values unsigned
   final bool displayAsUnsigned;
 
@@ -110,7 +111,7 @@ class EnergyFlowModel {
       value /= 1000;
     }
 
-    int exponent = min(2 - max(log(value), 0) ~/ log(10), 2);
+    int exponent = min(2 - max(log(value.abs()), 0) ~/ log(10), 2);
     value = (value * pow(10, exponent)).round() / pow(10, exponent);
 
     /// if value is larger than 1000, view without decimal
