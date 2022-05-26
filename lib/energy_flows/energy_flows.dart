@@ -165,18 +165,18 @@ class _EnergyFlowsState extends State<EnergyFlows> {
                           height: size.shortestSide / 7.5,
                           child: widget.model.icons[i]),
                       Center(
-                          child: PowerText(
-                        widget.model.powerValues[i],
-                        style: (Theme.of(context).textTheme.bodyText2 ??
-                                const TextStyle(color: Colors.black))
-                            .copyWith(
-                          fontSize: size.shortestSide / 27.5,
-                        ),
-                        isDisabled: widget.model.isDisabled,
-                        displayAsUnsigned: widget.model.displayAsUnsigned,
-                        displayKiloWattsAsSmallest:
-                            widget.model.displayKiloWattsAsSmallest,
-                      )),
+                          child: PowerText(widget.model.powerValues[i],
+                              style: (Theme.of(context).textTheme.bodyText1 ??
+                                      const TextStyle(color: Colors.black))
+                                  .copyWith(
+                                fontSize: size.shortestSide / 27.5,
+                              ),
+                              isDisabled: widget.model.isDisabled,
+                              displayAsUnsigned: widget.model.displayAsUnsigned,
+                              displayKiloWattsAsSmallest:
+                                  widget.model.displayKiloWattsAsSmallest,
+                              displayPowerChangeIndicationColor: widget
+                                  .model.displayPowerChangeIndicationColor)),
                     ],
                   )),
             )),
@@ -191,7 +191,8 @@ class PowerText extends StatefulWidget {
       required this.style,
       this.isDisabled = false,
       this.displayAsUnsigned = true,
-      this.displayKiloWattsAsSmallest = false})
+      this.displayKiloWattsAsSmallest = false,
+      this.displayPowerChangeIndicationColor = true})
       : _data = data,
         super(
           key: key,
@@ -201,6 +202,7 @@ class PowerText extends StatefulWidget {
   final bool displayAsUnsigned;
   final bool isDisabled;
   final bool displayKiloWattsAsSmallest;
+  final bool displayPowerChangeIndicationColor;
   final double _data;
 
   String powerValuesAsString(double value) {
@@ -256,24 +258,28 @@ class _PowerTextState extends State<PowerText>
   @override
   void didUpdateWidget(covariant PowerText oldWidget) {
     setState(() {
-      if (data != widget._data) {
-        Color _blinkColor;
-        if (widget._data > data) {
-          _blinkColor = Colors.green;
-        } else {
-          _blinkColor = Colors.red;
-        }
-        _colorTween = ColorTween(begin: widget.style.color, end: _blinkColor);
-        _animation = _colorTween!.animate(_controller)
-          ..addListener(() {
-            setState(() {});
+      if (widget.displayPowerChangeIndicationColor) {
+        if (data != widget._data) {
+          Color _blinkColor;
+          if (widget._data > data) {
+            _blinkColor = Colors.green;
+          } else {
+            _blinkColor = Colors.red;
+          }
+          _colorTween = ColorTween(begin: widget.style.color, end: _blinkColor);
+          _animation = _colorTween!.animate(_controller)
+            ..addListener(() {
+              setState(() {});
+            });
+
+          blinkTimer?.cancel();
+          blinkTimer = Timer(const Duration(seconds: 3), () {
+            _animation = null;
           });
-        data = widget._data;
-        blinkTimer?.cancel();
-        blinkTimer = Timer(const Duration(seconds: 3), () {
-          _animation = null;
-        });
+        }
       }
+
+      data = widget._data;
     });
     super.didUpdateWidget(oldWidget);
   }
