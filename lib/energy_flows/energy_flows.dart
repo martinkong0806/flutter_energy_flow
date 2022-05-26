@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -163,14 +165,128 @@ class _EnergyFlowsState extends State<EnergyFlows> {
                           height: size.shortestSide / 7.5,
                           child: widget.model.icons[i]),
                       Center(
-                          child: Text(
+                          child: PowerText(
                         widget.model.powerValues[i],
-                        style: TextStyle(fontSize: size.shortestSide / 27.5),
+                        style: (Theme.of(context).textTheme.bodyText2 ??
+                                const TextStyle(color: Colors.black))
+                            .copyWith(
+                          fontSize: size.shortestSide / 27.5,
+                        ),
+                        isDisabled: widget.model.isDisabled,
+                        displayAsUnsigned: widget.model.displayAsUnsigned,
+                        displayKiloWattsAsSmallest:
+                            widget.model.displayKiloWattsAsSmallest,
                       )),
                     ],
                   )),
             )),
       ]
     ]);
+  }
+}
+
+class PowerText extends StatefulWidget {
+  const PowerText(double data,
+      {Key? key,
+      required this.style,
+      this.isDisabled = false,
+      this.displayAsUnsigned = true,
+      this.displayKiloWattsAsSmallest = false})
+      : _data = data,
+        super(
+          key: key,
+        );
+
+  final TextStyle style;
+  final bool displayAsUnsigned;
+  final bool isDisabled;
+  final bool displayKiloWattsAsSmallest;
+  final double _data;
+
+  String powerValuesAsString(double value) {
+    if (isDisabled) return '---';
+    if (displayAsUnsigned) value = value.abs();
+
+    String unit = "W";
+    if (value < pow(10, 4) && !displayKiloWattsAsSmallest) {
+      return value.toInt().toString() + " " + unit;
+    }
+    if (value >= pow(10, 7)) {
+      unit = "MW";
+      value /= 1000 * 1000;
+    } else if (value < pow(10, 7) || displayKiloWattsAsSmallest) {
+      unit = "kW";
+      if (value == 0) return "0" " " + unit;
+      value /= 1000;
+    }
+
+    int exponent = min(2 - max(log(value.abs()), 0) ~/ log(10), 2);
+    value = (value * pow(10, exponent)).round() / pow(10, exponent);
+
+    /// if value is larger than 1000, view without decimal
+    if (value >= pow(10, 3)) return value.toInt().toString() + " " + unit;
+    if (value == 0) return '0.01' " " + unit;
+    return value.toString() + " " + unit;
+  }
+
+  @override
+  State<PowerText> createState() => _PowerTextState();
+}
+
+class _PowerTextState extends State<PowerText>
+    with SingleTickerProviderStateMixin {
+  late double data;
+  // bool _showBlink = false;
+  Animation<Color?>? _animation;
+
+  late AnimationController _controller;
+  ColorTween? _colorTween;
+
+  Timer? blinkTimer;
+  @override
+  void initState() {
+    data = widget._data;
+    _controller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 500))
+      ..repeat(reverse: true);
+
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant PowerText oldWidget) {
+    setState(() {
+      if (data != widget._data) {
+        Color _blinkColor;
+        if (widget._data > data) {
+          _blinkColor = Colors.green;
+        } else {
+          _blinkColor = Colors.red;
+        }
+        _colorTween = ColorTween(begin: widget.style.color, end: _blinkColor);
+        _animation = _colorTween!.animate(_controller)
+          ..addListener(() {
+            setState(() {});
+          });
+        data = widget._data;
+        blinkTimer?.cancel();
+        blinkTimer = Timer(const Duration(seconds: 3), () {
+          _animation = null;
+        });
+      }
+    });
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(widget.powerValuesAsString(data),
+        style: widget.style.copyWith(color: _animation?.value));
   }
 }

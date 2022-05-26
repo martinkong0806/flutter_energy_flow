@@ -9,6 +9,7 @@ class EnergyFlowModel {
       this.gridPower = 0,
       this.loadPowerC,
       this.displayKiloWattsAsSmallest = true,
+      this.displayPowerChangeIndicationColor = false,
       this.pvIcon,
       this.loadIcon,
       this.batIcon,
@@ -37,6 +38,8 @@ class EnergyFlowModel {
 
   final bool displayKiloWattsAsSmallest;
 
+  final bool displayPowerChangeIndicationColor;
+
   final Widget? pvIcon, loadIcon, batIcon, gridIcon;
 
   final void Function(TapDownDetails)? onPvTap, onLoadTap, onBatTap, onGridTap;
@@ -57,12 +60,8 @@ class EnergyFlowModel {
   List<bool> get powerStates =>
       [isPvActive, isLoadActive, isBatActive, isGridActive];
 
-  List<String> get powerValues => [
-        pvPower,
-        loadPowerC ?? loadPower,
-        batPower,
-        gridPower
-      ].map(powerValuesAsString).toList();
+  List<double> get powerValues =>
+      [pvPower, loadPowerC ?? loadPower, batPower, gridPower]..toList();
 
   bool get isPvActive => isValid && pvPower.isPositive;
 
@@ -94,32 +93,6 @@ class EnergyFlowModel {
 
   List<Widget?> get icons => [pvIcon, loadIcon, batIcon, gridIcon];
 
-  String powerValuesAsString(double value) {
-    if (isDisabled) return '---';
-    if (displayAsUnsigned) value = value.abs();
-
-    String unit = "W";
-    if (value < pow(10, 4) && !displayKiloWattsAsSmallest) {
-      return value.toInt().toString() + " " + unit;
-    }
-    if (value >= pow(10, 7)) {
-      unit = "MW";
-      value /= 1000 * 1000;
-    } else if (value < pow(10, 7) || displayKiloWattsAsSmallest) {
-      unit = "kW";
-      if (value == 0) return "0" " " + unit;
-      value /= 1000;
-    }
-
-    int exponent = min(2 - max(log(value.abs()), 0) ~/ log(10), 2);
-    value = (value * pow(10, exponent)).round() / pow(10, exponent);
-
-    /// if value is larger than 1000, view without decimal
-    if (value >= pow(10, 3)) return value.toInt().toString() + " " + unit;
-    if (value == 0) return '0.01' " " + unit;
-    return value.toString() + " " + unit;
-  }
-
   EnergyFlowModel copyWith({
     double? pvPower,
     double? batPower,
@@ -136,27 +109,26 @@ class EnergyFlowModel {
     void Function(TapDownDetails)? onLoadTap,
     void Function(TapDownDetails)? onBatTap,
     void Function(TapDownDetails)? onGridTap,
-    ThemeMode ? themeMode = ThemeMode.light,
+    ThemeMode? themeMode = ThemeMode.light,
   }) {
     return EnergyFlowModel(
-      pvPower: pvPower ?? this.pvPower,
-      batPower: batPower ?? this.batPower,
-      gridPower: gridPower ?? this.gridPower,
-      loadPowerC: loadPowerC,
-      displayKiloWattsAsSmallest:
-          displayKiloWattsAsSmallest ?? this.displayKiloWattsAsSmallest,
-      displayAsUnsigned: displayAsUnsigned ?? this.displayAsUnsigned,
-      isDisabled: isDisabled ?? this.isDisabled,
-      pvIcon: pvIcon,
-      loadIcon: loadIcon,
-      batIcon: batIcon,
-      gridIcon: gridIcon,
-      onPvTap: onPvTap,
-      onLoadTap: onLoadTap,
-      onBatTap: onBatTap,
-      onGridTap: onGridTap,
-      themeMode: themeMode?? this.themeMode
-    );
+        pvPower: pvPower ?? this.pvPower,
+        batPower: batPower ?? this.batPower,
+        gridPower: gridPower ?? this.gridPower,
+        loadPowerC: loadPowerC,
+        displayKiloWattsAsSmallest:
+            displayKiloWattsAsSmallest ?? this.displayKiloWattsAsSmallest,
+        displayAsUnsigned: displayAsUnsigned ?? this.displayAsUnsigned,
+        isDisabled: isDisabled ?? this.isDisabled,
+        pvIcon: pvIcon,
+        loadIcon: loadIcon,
+        batIcon: batIcon,
+        gridIcon: gridIcon,
+        onPvTap: onPvTap,
+        onLoadTap: onLoadTap,
+        onBatTap: onBatTap,
+        onGridTap: onGridTap,
+        themeMode: themeMode ?? this.themeMode);
   }
 }
 
