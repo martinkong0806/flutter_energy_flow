@@ -100,6 +100,7 @@ class EnergyFlowModel {
     double? loadPowerC,
     bool? displayKiloWattsAsSmallest,
     bool? displayAsUnsigned,
+    bool? displayPowerChangeIndicationColor,
     bool? isDisabled,
     Widget? pvIcon,
     Widget? loadIcon,
@@ -119,6 +120,8 @@ class EnergyFlowModel {
         displayKiloWattsAsSmallest:
             displayKiloWattsAsSmallest ?? this.displayKiloWattsAsSmallest,
         displayAsUnsigned: displayAsUnsigned ?? this.displayAsUnsigned,
+        displayPowerChangeIndicationColor: displayPowerChangeIndicationColor ??
+            this.displayPowerChangeIndicationColor,
         isDisabled: isDisabled ?? this.isDisabled,
         pvIcon: pvIcon,
         loadIcon: loadIcon,
