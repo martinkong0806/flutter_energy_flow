@@ -16,13 +16,12 @@ class EnergyFlowsIcon extends StatefulWidget {
   final bool _isActive;
   final Size _size;
   final void Function(TapDownDetails)? onTapDown;
-  final ThemeMode themeMode;
+
   final EnergyFlowAppearance appearance;
 
   const EnergyFlowsIcon(EnergyFlowsIconModel model, bool isActive, Size size,
       {Key? key,
       this.onTapDown,
-      required this.themeMode,
       required this.appearance})
       : _model = model,
         _isActive = isActive,
@@ -89,7 +88,6 @@ class _EnergyFlowsIconState extends State<EnergyFlowsIcon>
               offsetDirection: model.offsetDirection,
               glow: glowAnimation.value,
               isActive: widget._isActive,
-              themeMode: widget.themeMode,
               appearance: widget.appearance,
             )),
           ));

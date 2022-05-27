@@ -18,7 +18,7 @@ class EnergyFlowModel {
       this.onLoadTap,
       this.onBatTap,
       this.onGridTap,
-      this.themeMode = ThemeMode.light,
+
       this.isDisabled = false,
       this.displayAsUnsigned = true});
 
@@ -48,7 +48,6 @@ class EnergyFlowModel {
   /// Show power values unsigned
   final bool displayAsUnsigned;
 
-  final ThemeMode themeMode;
 
   final bool isDisabled;
 
@@ -131,7 +130,7 @@ class EnergyFlowModel {
         onLoadTap: onLoadTap,
         onBatTap: onBatTap,
         onGridTap: onGridTap,
-        themeMode: themeMode ?? this.themeMode);
+       );
   }
 }
 

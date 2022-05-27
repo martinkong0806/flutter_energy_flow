@@ -21,10 +21,18 @@ class EnergyFlowAppearance {
   static const EnergyFlowAppearance light = EnergyFlowAppearance(
       activeRailColor: activeRailColorLight,
       inactiveRailColor: inactiveRailColorLight,
-      iconColor:  iconColorLight);
+      iconColor: iconColorLight);
 
   static const EnergyFlowAppearance dark = EnergyFlowAppearance(
       activeRailColor: activeRailColorDark,
       inactiveRailColor: inactiveRailColorDark,
       iconColor: iconColorDark);
+
+  EnergyFlowAppearance copyWith(
+      Color? activeRailColor, Color? inactiveRailColor, Color? iconColor) {
+    return EnergyFlowAppearance(
+        activeRailColor: activeRailColor ?? this.activeRailColor,
+        inactiveRailColor: inactiveRailColor ?? this.activeRailColor,
+        iconColor: iconColor ?? this.iconColor);
+  }
 }

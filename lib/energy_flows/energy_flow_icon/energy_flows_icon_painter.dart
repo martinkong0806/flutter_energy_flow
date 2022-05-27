@@ -11,7 +11,6 @@ class EnergyFlowsIconPaint extends CustomPainter {
   /// change constantly and contorlled by Animated Controller
   final double glow;
   final bool isActive;
-  final ThemeMode themeMode;
   final EnergyFlowAppearance appearance;
 
   EnergyFlowsIconPaint(
@@ -20,7 +19,6 @@ class EnergyFlowsIconPaint extends CustomPainter {
       required this.offsetDirection,
       required this.glow,
       required this.isActive,
-      required this.themeMode,
       required this.appearance});
 
   @override
@@ -29,7 +27,7 @@ class EnergyFlowsIconPaint extends CustomPainter {
     final Offset center = size.toOffset() / 2;
     final Paint paint = Paint()..color = color;
 
-    canvas.drawGlowCircle(center, radius, paint, glow, isActive, themeMode);
+    canvas.drawGlowCircle(center, radius, paint, glow, isActive, appearance);
   }
 
   @override
@@ -40,7 +38,7 @@ class EnergyFlowsIconPaint extends CustomPainter {
 
 extension CutsomCanvasUtils on Canvas {
   void drawGlowCircle(Offset c, double radius, Paint paint, double glow,
-      bool isActive, ThemeMode themeMode) {
+      bool isActive, EnergyFlowAppearance appearance) {
     if (isActive) {
       drawCircle(c, radius + 2, paint);
       drawCircle(
@@ -52,10 +50,6 @@ extension CutsomCanvasUtils on Canvas {
     } else {
       drawCircle(c, radius + 2, Paint()..color = Colors.grey);
     }
-    if (themeMode == ThemeMode.light) {
-      drawCircle(c, radius, Paint()..color = Colors.white);
-    } else {
-      drawCircle(c, radius, Paint()..color = Colors.black);
-    }
+    drawCircle(c, radius, Paint()..color = appearance.iconColor);
   }
 }

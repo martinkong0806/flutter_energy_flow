@@ -146,7 +146,7 @@ class _EnergyFlowsState extends State<EnergyFlows> {
             widget.model.powerStates[i],
             size,
             onTapDown: widget.model.onTaps[i],
-            themeMode: widget.model.themeMode,
+  
             appearance: widget.appearance,
           ),
         ),
