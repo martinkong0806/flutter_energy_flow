@@ -33,8 +33,10 @@ class EnergyFlows extends StatefulWidget {
 }
 
 class _EnergyFlowsState extends State<EnergyFlows> {
+  
   @override
   Widget build(BuildContext context) {
+    
     double canvasSize =
         widget.size?.shortestSide ?? MediaQuery.of(context).size.shortestSide;
     return LayoutBuilder(
@@ -68,7 +70,7 @@ class _EnergyFlowsState extends State<EnergyFlows> {
 
         OuterRail(
           startAngle: math.pi / 6 + 2 * math.pi / 3,
-          startColor: batColor,
+          startColor: widget.appearance.batteryColor ?? batColor,
           endColor: pvColor,
           reverse: true,
           isActive: widget.model.pvToBat.isPositive,
@@ -79,7 +81,7 @@ class _EnergyFlowsState extends State<EnergyFlows> {
           OuterRail(
             startAngle: math.pi / 6,
             startColor: gridColor,
-            endColor: batColor,
+            endColor: widget.appearance.batteryColor ?? batColor,
             reverse: true,
             isActive: widget.model.batToGrid.isPositive,
             appearance: widget.appearance,
@@ -89,7 +91,7 @@ class _EnergyFlowsState extends State<EnergyFlows> {
           OuterRail(
             startAngle: math.pi / 6,
             startColor: gridColor,
-            endColor: batColor,
+            endColor: widget.appearance.batteryColor ?? batColor,
             isActive: widget.model.gridToBat.isPositive,
             appearance: widget.appearance,
           ),
@@ -99,7 +101,7 @@ class _EnergyFlowsState extends State<EnergyFlows> {
           OuterRail(
             startAngle: math.pi / 6,
             startColor: gridColor,
-            endColor: batColor,
+            endColor: widget.appearance.batteryColor ?? batColor,
             isActive: widget.model.gridToBat.isPositive,
             appearance: widget.appearance,
           ),
@@ -116,7 +118,7 @@ class _EnergyFlowsState extends State<EnergyFlows> {
           offsetDirection: 2 * math.pi / 3 + math.pi / 6,
           isActive: widget.model.batToLoad.isPositive,
           startColor: loadColor,
-          endColor: batColor,
+          endColor: widget.appearance.batteryColor ?? batColor,
           appearance: widget.appearance,
         ),
 
@@ -146,7 +148,6 @@ class _EnergyFlowsState extends State<EnergyFlows> {
             widget.model.powerStates[i],
             size,
             onTapDown: widget.model.onTaps[i],
-  
             appearance: widget.appearance,
           ),
         ),

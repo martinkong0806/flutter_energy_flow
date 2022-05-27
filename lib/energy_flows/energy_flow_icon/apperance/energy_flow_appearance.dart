@@ -12,11 +12,14 @@ class EnergyFlowAppearance {
   final Color activeRailColor;
   final Color inactiveRailColor;
   final Color iconColor;
+  final Color? batteryColor;
 
   const EnergyFlowAppearance(
       {this.activeRailColor = activeRailColorLight,
       this.inactiveRailColor = inactiveRailColorLight,
-      this.iconColor = iconColorLight});
+      this.iconColor = iconColorLight,
+      this.batteryColor
+      });
 
   static const EnergyFlowAppearance light = EnergyFlowAppearance(
       activeRailColor: activeRailColorLight,
@@ -29,10 +32,13 @@ class EnergyFlowAppearance {
       iconColor: iconColorDark);
 
   EnergyFlowAppearance copyWith(
-     { Color? activeRailColor, Color? inactiveRailColor, Color? iconColor}) {
+      {Color? activeRailColor, Color? inactiveRailColor, Color? iconColor, Color? batteryColor}) {
     return EnergyFlowAppearance(
         activeRailColor: activeRailColor ?? this.activeRailColor,
         inactiveRailColor: inactiveRailColor ?? this.activeRailColor,
-        iconColor: iconColor ?? this.iconColor);
+        iconColor: iconColor ?? this.iconColor,
+        batteryColor: batteryColor?? this.batteryColor
+        
+        );
   }
 }
