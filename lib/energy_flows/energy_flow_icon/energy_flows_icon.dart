@@ -83,7 +83,7 @@ class _EnergyFlowsIconState extends State<EnergyFlowsIcon>
             onTapDown: widget.onTapDown,
             child: CustomPaint(
                 painter: EnergyFlowsIconPaint(
-              color: model.color,
+              color: model.name =='battery'? widget.appearance.batteryColor ?? model.color : model.color,
               offsetDistanceRatio: model.offsetDistanceRatio,
               offsetDirection: model.offsetDirection,
               glow: glowAnimation.value,

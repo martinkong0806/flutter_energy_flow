@@ -21,7 +21,7 @@ class EnergyFlowsIconModel {
   const EnergyFlowsIconModel(
       {required this.name,
       required this.color,
-       this.onTap,
+      this.onTap,
       required this.offsetDistanceRatio,
       required this.offsetDirection});
 
@@ -36,5 +36,19 @@ class EnergyFlowsIconModel {
             shortestSide / 5) /
         2;
     return Offset(dx, dy);
+  }
+
+  EnergyFlowsIconModel copyWith(
+      {String? name,
+      Color? color,
+      void Function()? onTap,
+      double? offsetDistanceRatio,
+      double? offsetDirection}) {
+    return EnergyFlowsIconModel(
+        name: name ?? this.name,
+        color: color ?? this.color,
+        onTap: onTap ?? this.onTap,
+        offsetDistanceRatio: offsetDistanceRatio ?? this.offsetDistanceRatio,
+        offsetDirection: offsetDirection ?? this.offsetDirection);
   }
 }
