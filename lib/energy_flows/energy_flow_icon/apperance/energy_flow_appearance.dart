@@ -29,7 +29,7 @@ class EnergyFlowAppearance {
       iconColor: iconColorDark);
 
   EnergyFlowAppearance copyWith(
-      Color? activeRailColor, Color? inactiveRailColor, Color? iconColor) {
+     { Color? activeRailColor, Color? inactiveRailColor, Color? iconColor}) {
     return EnergyFlowAppearance(
         activeRailColor: activeRailColor ?? this.activeRailColor,
         inactiveRailColor: inactiveRailColor ?? this.activeRailColor,
