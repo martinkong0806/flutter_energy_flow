@@ -55,7 +55,7 @@ extension CutsomCanvasUtils on Canvas {
           c,
           radius * glow,
           paint
-            ..color = paint.color.withOpacity(0.5 * glow)
+            ..color = paint.color.withOpacity(0.5)
             ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5));
     
     drawCircle(c, radius, Paint()..color = appearance.iconColor);

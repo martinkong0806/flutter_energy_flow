@@ -39,7 +39,7 @@ class _EnergyFlowsIconState extends State<EnergyFlowsIcon>
 
   final Tween<double> glowTween =
       Tween(begin: ICON_GLOW_SIZE_MIN, end: ICON_GLOW_SIZE_MAX);
-  late final ColorTween colorTween;
+  late ColorTween colorTween;
 
   late EnergyFlowsIconModel model;
 
@@ -84,6 +84,11 @@ class _EnergyFlowsIconState extends State<EnergyFlowsIcon>
 
   @override
   void didUpdateWidget(covariant EnergyFlowsIcon oldWidget) {
+    colorTween = ColorTween(
+        begin: widget.appearance.inactiveRailColor,
+        end: model.name == 'battery'
+            ? widget.appearance.batteryColor ?? model.color
+            : model.color);
     if (oldWidget._isActive != widget._isActive) {
       if (widget._isActive) {
         colorController.forward();
@@ -119,7 +124,7 @@ class _EnergyFlowsIconState extends State<EnergyFlowsIcon>
                   colorAnimation.value ?? widget.appearance.inactiveRailColor,
               offsetDistanceRatio: model.offsetDistanceRatio,
               offsetDirection: model.offsetDirection,
-              glow: glowAnimation.value,
+              glow: glowAnimation.value * colorController.value,
               isActive: widget._isActive,
               appearance: widget.appearance,
             )),
