@@ -24,7 +24,8 @@ class InnerRailPainter extends CustomPainter {
     final Offset endOffset = startOffset.toDistance(
         offsetDirection, offsetDistanceRatio * size.shortestSide / 2);
     final Paint railPaint = Paint()
-      ..color = isActive ? appearance.activeRailColor : appearance.inactiveRailColor
+      ..color =
+          isActive ? appearance.activeRailColor : appearance.inactiveRailColor
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke;
@@ -67,11 +68,11 @@ class InnerRailPainter extends CustomPainter {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 stops: const <double>[
-                  0.25,
-                  0.25,
+                  0.30,
+                  0.40,
                   0.5,
-                  0.75,
-                  0.75
+                  0.60,
+                  0.70
                 ],
                 colors: [
                   Colors.transparent,
@@ -81,22 +82,22 @@ class InnerRailPainter extends CustomPainter {
                   Colors.transparent,
                 ]).createShader(Rect.fromPoints(
                 highlightedRailStartOffset, highlightedRailEndOffset)));
-
-      final double ballRadius = size.shortestSide / 75;
-      final double glowRadius = size.shortestSide / 50;
-
-      canvas.drawCircle(
-          (highlightedRailStartOffset + highlightedRailEndOffset) / 2,
-          glowRadius * glowScale,
-          Paint()
-            ..color = color ?? Colors.white
-            ..maskFilter = MaskFilter.blur(BlurStyle.normal, 5 * glowScale));
-
-      canvas.drawCircle(
-          (highlightedRailStartOffset + highlightedRailEndOffset) / 2,
-          ballRadius,
-          Paint()..color = color ?? Colors.white);
     }
+
+    final double ballRadius = size.shortestSide / 75;
+    final double glowRadius = size.shortestSide / 50;
+
+    canvas.drawCircle(
+        (highlightedRailStartOffset + highlightedRailEndOffset) / 2,
+        glowRadius * glowScale,
+        Paint()
+          ..color = color ?? Colors.white
+          ..maskFilter = MaskFilter.blur(BlurStyle.normal, 5 * glowScale));
+
+    canvas.drawCircle(
+        (highlightedRailStartOffset + highlightedRailEndOffset) / 2,
+        ballRadius,
+        Paint()..color = color ?? Colors.white);
   }
 
   @override

@@ -39,17 +39,25 @@ class EnergyFlowsIconPaint extends CustomPainter {
 extension CutsomCanvasUtils on Canvas {
   void drawGlowCircle(Offset c, double radius, Paint paint, double glow,
       bool isActive, EnergyFlowAppearance appearance) {
-    if (isActive) {
-      drawCircle(c, radius + 2, paint);
-      drawCircle(
+    // if (false) {
+    //   drawCircle(c, radius + 2, paint);
+    //   drawCircle(
+    //       c,
+    //       radius * glow,
+    //       paint
+    //         ..color = paint.color.withOpacity(0.5)
+    //         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5));
+    // } else {
+      
+    // }
+    drawCircle(c, radius + 2, paint);
+    drawCircle(
           c,
           radius * glow,
           paint
             ..color = paint.color.withOpacity(0.5)
             ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5));
-    } else {
-      drawCircle(c, radius + 2, Paint()..color = Colors.grey);
-    }
+    
     drawCircle(c, radius, Paint()..color = appearance.iconColor);
   }
 }

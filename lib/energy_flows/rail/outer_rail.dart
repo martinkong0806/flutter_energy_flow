@@ -29,14 +29,17 @@ class OuterRail extends StatefulWidget {
 
 class _OuterRailState extends State<OuterRail> with TickerProviderStateMixin {
   late Animation<double> rotationAnimation;
+  late Animation<double> opacityAnimation;
   late Animation<Color?> colorAnimation;
   late Animation<double> glowScaleAnimation;
 
   late AnimationController rotationController;
+  late AnimationController opacityController;
   late AnimationController colorController;
   late AnimationController glowScaleController;
 
   late Tween<double> _rotationTween;
+  late Tween<double> _opacityTween;
   late ColorTween _colorTween;
   late Tween<double> _glowScaleTween;
 
@@ -50,6 +53,11 @@ class _OuterRailState extends State<OuterRail> with TickerProviderStateMixin {
 
     colorController = AnimationController(
         vsync: this, duration: ENERGY_BLOB_GLOW_COLOR_DURATION);
+
+    opacityController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
     _setAnimation();
 
     super.initState();
@@ -57,8 +65,12 @@ class _OuterRailState extends State<OuterRail> with TickerProviderStateMixin {
 
   @override
   void didUpdateWidget(covariant OuterRail oldWidget) {
-
-    _setAnimation();
+    if (widget.isActive) {
+      opacityController.forward();
+    } else {
+      opacityController.reverse();
+    }
+    rotationController.animateTo(1).then((value) => {_setAnimation()});
 
     super.didUpdateWidget(oldWidget);
   }
@@ -77,7 +89,7 @@ class _OuterRailState extends State<OuterRail> with TickerProviderStateMixin {
     _glowScaleTween = Tween(
         begin: ENERGY_BLOB_GLOW_SCALE_MIN, end: ENERGY_BLOB_GLOW_SCALE_MAX);
 
-    
+    _opacityTween = Tween(begin: 0, end: 1);
 
     rotationAnimation = _rotationTween.animate(rotationController)
       ..addListener(() {
@@ -91,10 +103,12 @@ class _OuterRailState extends State<OuterRail> with TickerProviderStateMixin {
         }
       });
 
-    glowScaleAnimation = _glowScaleTween.animate(glowScaleController)
-      ..addListener(() {
-        setState(() {});
-      })
+    rotationController.forward();
+
+    opacityAnimation = _opacityTween.animate(opacityController);
+
+    glowScaleAnimation = _glowScaleTween
+        .animate(glowScaleController..value = glowScaleController.value)
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           glowScaleController.repeat(reverse: true);
@@ -103,11 +117,11 @@ class _OuterRailState extends State<OuterRail> with TickerProviderStateMixin {
         }
       });
 
-    colorAnimation = _colorTween
-        .animate(colorController.drive(CurveTween(curve: Curves.easeInOutExpo)))
-      ..addListener(() {
-        setState(() {});
-      })
+    glowScaleController.forward();
+
+    colorAnimation = _colorTween.animate((colorController
+          ..value = colorController.value)
+        .drive(CurveTween(curve: Curves.easeInOutExpo)))
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           colorController.repeat();
@@ -115,10 +129,6 @@ class _OuterRailState extends State<OuterRail> with TickerProviderStateMixin {
           colorController.forward();
         }
       });
-
-    rotationController.forward();
-
-    glowScaleController.forward();
 
     colorController.forward();
   }
@@ -141,7 +151,7 @@ class _OuterRailState extends State<OuterRail> with TickerProviderStateMixin {
           startAngle: widget.startAngle,
           sweepAngle: widget.sweepAngle,
           rotation: rotationAnimation.value,
-          color: colorAnimation.value,
+          color: colorAnimation.value?.withOpacity(opacityAnimation.value),
           glowScale: glowScaleAnimation.value,
           isActive: widget.isActive,
           appearance: widget.appearance,

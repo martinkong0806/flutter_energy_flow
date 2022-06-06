@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_energy_flows/energy_flows/energy_flow_icon/apperance/energy_flow_appearance.dart';
 
@@ -33,14 +34,17 @@ class InnerRail extends StatefulWidget {
 
 class _InnerRailState extends State<InnerRail> with TickerProviderStateMixin {
   late Animation<double> progressAnimation;
+  late Animation<double> opacityAnimation;
   late Animation<Color?> colorAnimation;
   late Animation<double> glowScaleAnimation;
 
   late AnimationController progressController;
   late AnimationController colorController;
   late AnimationController glowScaleController;
+  late AnimationController opacityController;
 
   late Tween<double> _progressTween;
+  late Tween<double> _opacityTween;
 
   late ColorTween _colorTween;
   late Tween<double> _glowScaleTween;
@@ -62,6 +66,11 @@ class _InnerRailState extends State<InnerRail> with TickerProviderStateMixin {
       duration: ENERGY_BLOB_GLOW_COLOR_DURATION,
     );
 
+    opacityController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+
     _setAnimation();
 
     super.initState();
@@ -75,9 +84,12 @@ class _InnerRailState extends State<InnerRail> with TickerProviderStateMixin {
       _progressTween = Tween(begin: 1, end: 0);
       _colorTween = ColorTween(begin: widget.endColor, end: widget.startColor);
     }
+    _opacityTween = Tween(begin: 0, end: 1);
 
     _glowScaleTween = Tween(
         begin: ENERGY_BLOB_GLOW_SCALE_MIN, end: ENERGY_BLOB_GLOW_SCALE_MAX);
+
+    opacityAnimation = _opacityTween.animate(opacityController);
 
     progressAnimation = _progressTween
         .animate(progressController..value = progressController.value)
@@ -96,9 +108,6 @@ class _InnerRailState extends State<InnerRail> with TickerProviderStateMixin {
 
     glowScaleAnimation = _glowScaleTween
         .animate(glowScaleController..value = glowScaleController.value)
-      ..addListener(() {
-        setState(() {});
-      })
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           glowScaleController.repeat(reverse: true);
@@ -112,9 +121,6 @@ class _InnerRailState extends State<InnerRail> with TickerProviderStateMixin {
     colorAnimation = _colorTween.animate((colorController
           ..value = colorController.value)
         .drive(CurveTween(curve: Curves.easeInOutExpo)))
-      ..addListener(() {
-        setState(() {});
-      })
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           colorController.repeat();
@@ -128,7 +134,14 @@ class _InnerRailState extends State<InnerRail> with TickerProviderStateMixin {
 
   @override
   void didUpdateWidget(covariant InnerRail oldWidget) {
-    _setAnimation();
+    if (widget.isActive) {
+      opacityController.forward();
+    } else {
+      opacityController.reverse();
+    }
+    progressController.animateTo(1).then((value) => {
+      _setAnimation()
+    });
     super.didUpdateWidget(oldWidget);
   }
 
@@ -150,7 +163,8 @@ class _InnerRailState extends State<InnerRail> with TickerProviderStateMixin {
                 offsetDirection: widget.offsetDirection,
                 offsetDistanceRatio: widget.offsetDistanceRatio,
                 progress: progressAnimation.value,
-                color: colorAnimation.value,
+                color:
+                    colorAnimation.value?.withOpacity(opacityAnimation.value),
                 glowScale: glowScaleAnimation.value,
                 isActive: widget.isActive,
                 appearance: widget.appearance)));

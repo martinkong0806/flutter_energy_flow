@@ -20,9 +20,7 @@ class EnergyFlowsIcon extends StatefulWidget {
   final EnergyFlowAppearance appearance;
 
   const EnergyFlowsIcon(EnergyFlowsIconModel model, bool isActive, Size size,
-      {Key? key,
-      this.onTapDown,
-      required this.appearance})
+      {Key? key, this.onTapDown, required this.appearance})
       : _model = model,
         _isActive = isActive,
         _size = size,
@@ -34,17 +32,26 @@ class EnergyFlowsIcon extends StatefulWidget {
 
 class _EnergyFlowsIconState extends State<EnergyFlowsIcon>
     with TickerProviderStateMixin {
+  late Animation<Color?> colorAnimation;
   late Animation<double> glowAnimation;
   late AnimationController controller;
+  late AnimationController colorController;
 
   final Tween<double> glowTween =
       Tween(begin: ICON_GLOW_SIZE_MIN, end: ICON_GLOW_SIZE_MAX);
+  late final ColorTween colorTween;
 
   late EnergyFlowsIconModel model;
 
   @override
   void initState() {
     model = widget._model;
+
+    colorTween = ColorTween(
+        begin: widget.appearance.inactiveRailColor,
+        end: model.name == 'battery'
+            ? widget.appearance.batteryColor ?? model.color
+            : model.color);
 
     controller = AnimationController(vsync: this, duration: ICON_GLOW_DURTAION);
     glowAnimation = glowTween.animate(controller)
@@ -60,7 +67,31 @@ class _EnergyFlowsIconState extends State<EnergyFlowsIcon>
       });
     controller.forward();
 
+    colorController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+
+    colorAnimation = colorTween.animate(colorController)
+      ..addListener(() {
+        setState(() {});
+      });
+
+    if (widget._isActive) {
+      colorController.forward();
+    }
+
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant EnergyFlowsIcon oldWidget) {
+    if (oldWidget._isActive != widget._isActive) {
+      if (widget._isActive) {
+        colorController.forward();
+      } else {
+        colorController.reverse();
+      }
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -83,7 +114,8 @@ class _EnergyFlowsIconState extends State<EnergyFlowsIcon>
             onTapDown: widget.onTapDown,
             child: CustomPaint(
                 painter: EnergyFlowsIconPaint(
-              color: model.name =='battery'? widget.appearance.batteryColor ?? model.color : model.color,
+              color:
+                  colorAnimation.value ?? widget.appearance.inactiveRailColor,
               offsetDistanceRatio: model.offsetDistanceRatio,
               offsetDirection: model.offsetDirection,
               glow: glowAnimation.value,

@@ -64,19 +64,17 @@ class OuterRailPainter extends CustomPainter {
                   Colors.transparent,
                 ]).createShader(
                 Rect.fromCircle(center: center, radius: railRadius)));
-
-      final double ballRadius = size.shortestSide / 75;
-      final double glowRadius = size.shortestSide / 50;
-
-      canvas.drawCircle(
-          center.toDistance(rotation, railRadius),
-          glowRadius * glowScale,
-          Paint()
-            ..color = color ?? Colors.white
-            ..maskFilter = MaskFilter.blur(BlurStyle.normal, 5 * glowScale));
-      canvas.drawCircle(center.toDistance(rotation, railRadius), ballRadius,
-          Paint()..color = color ?? Colors.white);
     }
+    final double ballRadius = size.shortestSide / 75;
+    final double glowRadius = size.shortestSide / 50;
+    canvas.drawCircle(
+        center.toDistance(rotation, railRadius),
+        glowRadius * glowScale,
+        Paint()
+          ..color = color ?? Colors.white
+          ..maskFilter = MaskFilter.blur(BlurStyle.normal, 5 * glowScale));
+    canvas.drawCircle(center.toDistance(rotation, railRadius), ballRadius,
+        Paint()..color = color ?? Colors.white);
   }
 
   @override
