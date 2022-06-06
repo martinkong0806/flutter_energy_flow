@@ -89,6 +89,7 @@ class _EnergyFlowsIconState extends State<EnergyFlowsIcon>
         colorController.forward();
       } else {
         colorController.reverse();
+        controller.reverse();
       }
     }
     super.didUpdateWidget(oldWidget);

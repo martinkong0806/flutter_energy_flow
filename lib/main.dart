@@ -52,12 +52,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       displayAsUnsigned: false,
     );
     return Scaffold(
-      backgroundColor: Colors.black,
+      // backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(widget.title),
       ),
       body: EnergyFlows(
-          appearance: EnergyFlowAppearance.dark,
+          appearance: EnergyFlowAppearance.light,
           model: model.copyWith(
             displayKiloWattsAsSmallest: true,
             // displayAsUnsigned: true,
