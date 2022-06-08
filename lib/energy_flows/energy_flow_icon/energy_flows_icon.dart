@@ -103,6 +103,7 @@ class _EnergyFlowsIconState extends State<EnergyFlowsIcon>
   @override
   void dispose() {
     controller.dispose();
+    colorController.dispose();
     super.dispose();
   }
 
