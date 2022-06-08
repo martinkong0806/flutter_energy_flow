@@ -138,6 +138,7 @@ class _OuterRailState extends State<OuterRail> with TickerProviderStateMixin {
     rotationController.dispose();
     colorController.dispose();
     glowScaleController.dispose();
+    opacityController.dispose();
     super.dispose();
   }
 

@@ -41,10 +41,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     EnergyFlowModel model = EnergyFlowModel(
-      pvPower:10,
-      batPower:-20,
+      pvPower:0,
+      batPower:0,
       // loadPowerC: 20,
-      gridPower: -41,
+      gridPower: 0,
       // pvPower: 2307,
       // batPower: -2549,
       // // loadPowerC: 20,

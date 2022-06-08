@@ -139,9 +139,7 @@ class _InnerRailState extends State<InnerRail> with TickerProviderStateMixin {
     } else {
       opacityController.reverse();
     }
-    progressController.animateTo(1).then((value) => {
-      _setAnimation()
-    });
+    progressController.animateTo(1).then((value) => {_setAnimation()});
     super.didUpdateWidget(oldWidget);
   }
 
@@ -150,6 +148,7 @@ class _InnerRailState extends State<InnerRail> with TickerProviderStateMixin {
     progressController.dispose();
     colorController.dispose();
     glowScaleController.dispose();
+    opacityController.dispose();
     super.dispose();
   }
 
