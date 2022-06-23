@@ -18,7 +18,6 @@ class EnergyFlowModel {
       this.onLoadTap,
       this.onBatTap,
       this.onGridTap,
-
       this.isDisabled = false,
       this.displayAsUnsigned = true});
 
@@ -48,7 +47,6 @@ class EnergyFlowModel {
   /// Show power values unsigned
   final bool displayAsUnsigned;
 
-
   final bool isDisabled;
 
   /// Unlogical power values may occur if the system consist more than 1 inverter
@@ -60,7 +58,10 @@ class EnergyFlowModel {
       [isPvActive, isLoadActive, isBatActive, isGridActive];
 
   List<double> get powerValues =>
-      [pvPower, loadPowerC ?? loadPower, batPower, gridPower]..toList();
+      [pvPower, loadPowerC ?? loadPower, batPower, gridPower];
+
+  List<String> get powerValuesString =>
+      powerValues.map(powerValuesAsString).toList();
 
   bool get isPvActive => isValid && pvPower.isPositive;
 
@@ -90,6 +91,32 @@ class EnergyFlowModel {
   List<void Function(TapDownDetails)?> get onTaps =>
       [onPvTap, onLoadTap, onBatTap, onGridTap];
 
+  String powerValuesAsString(double value) {
+    if (isDisabled) return '---';
+    if (displayAsUnsigned) value = value.abs();
+
+    String unit = "W";
+    if (value < pow(10, 4) && !displayKiloWattsAsSmallest) {
+      return value.toInt().toString() + " " + unit;
+    }
+    if (value >= pow(10, 7)) {
+      unit = "MW";
+      value /= 1000 * 1000;
+    } else if (value < pow(10, 7) || displayKiloWattsAsSmallest) {
+      unit = "kW";
+      if (value == 0) return "0" " " + unit;
+      value /= 1000;
+    }
+
+    int exponent = min(2 - max(log(value.abs()), 0) ~/ log(10), 2);
+    value = (value * pow(10, exponent)).round() / pow(10, exponent);
+
+    /// if value is larger than 1000, view without decimal
+    if (value >= pow(10, 3)) return value.toInt().toString() + " " + unit;
+    if (value == 0) return '0.01' " " + unit;
+    return value.toString() + " " + unit;
+  }
+
   List<Widget?> get icons => [pvIcon, loadIcon, batIcon, gridIcon];
 
   EnergyFlowModel copyWith({
@@ -112,25 +139,25 @@ class EnergyFlowModel {
     ThemeMode? themeMode = ThemeMode.light,
   }) {
     return EnergyFlowModel(
-        pvPower: pvPower ?? this.pvPower,
-        batPower: batPower ?? this.batPower,
-        gridPower: gridPower ?? this.gridPower,
-        loadPowerC: loadPowerC,
-        displayKiloWattsAsSmallest:
-            displayKiloWattsAsSmallest ?? this.displayKiloWattsAsSmallest,
-        displayAsUnsigned: displayAsUnsigned ?? this.displayAsUnsigned,
-        displayPowerChangeIndicationColor: displayPowerChangeIndicationColor ??
-            this.displayPowerChangeIndicationColor,
-        isDisabled: isDisabled ?? this.isDisabled,
-        pvIcon: pvIcon,
-        loadIcon: loadIcon,
-        batIcon: batIcon,
-        gridIcon: gridIcon,
-        onPvTap: onPvTap,
-        onLoadTap: onLoadTap,
-        onBatTap: onBatTap,
-        onGridTap: onGridTap,
-       );
+      pvPower: pvPower ?? this.pvPower,
+      batPower: batPower ?? this.batPower,
+      gridPower: gridPower ?? this.gridPower,
+      loadPowerC: loadPowerC,
+      displayKiloWattsAsSmallest:
+          displayKiloWattsAsSmallest ?? this.displayKiloWattsAsSmallest,
+      displayAsUnsigned: displayAsUnsigned ?? this.displayAsUnsigned,
+      displayPowerChangeIndicationColor: displayPowerChangeIndicationColor ??
+          this.displayPowerChangeIndicationColor,
+      isDisabled: isDisabled ?? this.isDisabled,
+      pvIcon: pvIcon,
+      loadIcon: loadIcon,
+      batIcon: batIcon,
+      gridIcon: gridIcon,
+      onPvTap: onPvTap,
+      onLoadTap: onLoadTap,
+      onBatTap: onBatTap,
+      onGridTap: onGridTap,
+    );
   }
 }
 

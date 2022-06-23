@@ -1,4 +1,5 @@
-import 'dart:math';
+import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_energy_flows/energy_flows/energy_flow_icon/apperance/energy_flow_appearance.dart';
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      showSemanticsDebugger: true,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -33,22 +35,36 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
+  late double pvPower;
+  late double batPower;
+  late double gridPower;
   @override
   void initState() {
+    pvPower = 0;
+    batPower = 0;
+    gridPower = 0;
+
+    _getValues();
     super.initState();
+  }
+
+  _getValues() {
+    Timer.periodic(Duration(milliseconds: 500), (timer) {
+      setState(() {
+        pvPower += (math.Random().nextDouble() - 0.25) * 10;
+        pvPower = math.max(pvPower, 0);
+        batPower += (math.Random().nextDouble() - 0.5) * 10;
+        gridPower += (math.Random().nextDouble() - 0.5) * 10;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     EnergyFlowModel model = EnergyFlowModel(
-      pvPower:0,
-      batPower:0,
-      // loadPowerC: 20,
-      gridPower: 0,
-      // pvPower: 2307,
-      // batPower: -2549,
-      // // loadPowerC: 20,
-      // gridPower: -5000,
+      pvPower: pvPower,
+      batPower: batPower,
+      gridPower: gridPower,
       displayAsUnsigned: false,
     );
     return Scaffold(
@@ -59,9 +75,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       body: EnergyFlows(
           appearance: EnergyFlowAppearance.light,
           model: model.copyWith(
-            displayKiloWattsAsSmallest: true,
-            // displayAsUnsigned: true,
-            onPvTap: (TapDownDetails details) {})),
+              displayKiloWattsAsSmallest: false,
+              // displayAsUnsigned: true,
+             )),
     );
   }
 }

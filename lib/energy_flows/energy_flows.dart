@@ -33,10 +33,8 @@ class EnergyFlows extends StatefulWidget {
 }
 
 class _EnergyFlowsState extends State<EnergyFlows> {
-  
   @override
   Widget build(BuildContext context) {
-    
     double canvasSize =
         widget.size?.shortestSide ?? MediaQuery.of(context).size.shortestSide;
     return LayoutBuilder(
@@ -143,12 +141,17 @@ class _EnergyFlowsState extends State<EnergyFlows> {
         Positioned(
           left: iconModels[i].offset(size).dx,
           top: iconModels[i].offset(size).dy,
-          child: EnergyFlowsIcon(
-            iconModels[i],
-            widget.model.powerStates[i],
-            size,
-            onTapDown: widget.model.onTaps[i],
-            appearance: widget.appearance,
+          child: Semantics(
+            label: '''
+${iconModels[i].name} power : ${widget.model.powerValuesString[i]}
+''',
+            child: EnergyFlowsIcon(
+              iconModels[i],
+              widget.model.powerStates[i],
+              size,
+              onTapDown: widget.model.onTaps[i],
+              appearance: widget.appearance,
+            ),
           ),
         ),
         Positioned(
@@ -166,7 +169,7 @@ class _EnergyFlowsState extends State<EnergyFlows> {
                           height: size.shortestSide / 7.5,
                           child: widget.model.icons[i]),
                       Center(
-                          child: PowerText(widget.model.powerValues[i],
+                          child: PowerText(widget.model.powerValuesString[i],
                               style: (Theme.of(context).textTheme.bodyText1 ??
                                       const TextStyle(color: Colors.black))
                                   .copyWith(
@@ -187,7 +190,7 @@ class _EnergyFlowsState extends State<EnergyFlows> {
 }
 
 class PowerText extends StatefulWidget {
-  const PowerText(double data,
+  const PowerText(String data,
       {Key? key,
       required this.style,
       this.isDisabled = false,
@@ -204,33 +207,7 @@ class PowerText extends StatefulWidget {
   final bool isDisabled;
   final bool displayKiloWattsAsSmallest;
   final bool displayPowerChangeIndicationColor;
-  final double _data;
-
-  String powerValuesAsString(double value) {
-    if (isDisabled) return '---';
-    if (displayAsUnsigned) value = value.abs();
-
-    String unit = "W";
-    if (value < pow(10, 4) && !displayKiloWattsAsSmallest) {
-      return value.toInt().toString() + " " + unit;
-    }
-    if (value >= pow(10, 7)) {
-      unit = "MW";
-      value /= 1000 * 1000;
-    } else if (value < pow(10, 7) || displayKiloWattsAsSmallest) {
-      unit = "kW";
-      if (value == 0) return "0" " " + unit;
-      value /= 1000;
-    }
-
-    int exponent = min(2 - max(log(value.abs()), 0) ~/ log(10), 2);
-    value = (value * pow(10, exponent)).round() / pow(10, exponent);
-
-    /// if value is larger than 1000, view without decimal
-    if (value >= pow(10, 3)) return value.toInt().toString() + " " + unit;
-    if (value == 0) return '0.01' " " + unit;
-    return value.toString() + " " + unit;
-  }
+  final String _data;
 
   @override
   State<PowerText> createState() => _PowerTextState();
@@ -238,7 +215,7 @@ class PowerText extends StatefulWidget {
 
 class _PowerTextState extends State<PowerText>
     with SingleTickerProviderStateMixin {
-  late double data;
+  late String data;
   // bool _showBlink = false;
   Animation<Color?>? _animation;
 
@@ -262,7 +239,8 @@ class _PowerTextState extends State<PowerText>
       if (widget.displayPowerChangeIndicationColor) {
         if (data != widget._data) {
           Color _blinkColor;
-          if (widget._data > data) {
+          if ((double.tryParse(widget._data) ?? 0) >
+              (double.tryParse(data) ?? 0)) {
             _blinkColor = Colors.green;
           } else {
             _blinkColor = Colors.red;
@@ -293,7 +271,7 @@ class _PowerTextState extends State<PowerText>
 
   @override
   Widget build(BuildContext context) {
-    return Text(widget.powerValuesAsString(data),
+    return Text(widget._data,
         style: widget.style.copyWith(color: _animation?.value));
   }
 }
