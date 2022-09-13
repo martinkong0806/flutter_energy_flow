@@ -21,30 +21,3 @@ const Color loadColor = Color(0xff4fbba9);
 const Color batColor = Color(0xff233c7b);
 const Color gridColor = Color(0xffeb5b56);
 
-
-const List<EnergyFlowsIconModel> iconModels = [
-  EnergyFlowsIconModel(
-    name: "solar",
-    color: pvColor,
-    offsetDistanceRatio: 3 / 4,
-    offsetDirection: 2 * math.pi * 2 / 3 + math.pi / 6,
-  ),
-  EnergyFlowsIconModel(
-    name: "load",
-    color: loadColor,
-    offsetDistanceRatio: 0,
-    offsetDirection: 0,
-  ),
-  EnergyFlowsIconModel(
-    name: "battery",
-    color: batColor,
-    offsetDistanceRatio: 3 / 4,
-    offsetDirection: 2 * math.pi / 3 + math.pi / 6,
-  ),
-  EnergyFlowsIconModel(
-    name: "grid",
-    color: gridColor,
-    offsetDistanceRatio: 3 / 4,
-    offsetDirection: 2 * math.pi + math.pi / 6,
-  )
-];

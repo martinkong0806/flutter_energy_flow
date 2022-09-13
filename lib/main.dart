@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_energy_flows/energy_flows/energy_flow_icon/apperance/energy_flow_appearance.dart';
 import 'package:flutter_energy_flows/energy_flows/model/energy_flow_model.dart';
 
+import 'energy_flows/energy_flow_icon/energy_flows_icon.dart';
 import 'energy_flows/energy_flows.dart';
 
 void main() {
@@ -16,7 +17,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      showSemanticsDebugger: true,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -65,6 +65,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       pvPower: pvPower,
       batPower: batPower,
       gridPower: gridPower,
+      tariffPower: 0,
       displayAsUnsigned: false,
     );
     return Scaffold(
@@ -74,10 +75,20 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       ),
       body: EnergyFlows(
           appearance: EnergyFlowAppearance.light,
+          items: [
+            EnergyFlowsIconModel.solar().copyWith(
+              onTap: (details) {
+     
+              },
+            ),
+            EnergyFlowsIconModel.load(),
+            EnergyFlowsIconModel.battery(),
+            EnergyFlowsIconModel.grid(),
+            EnergyFlowsIconModel.tariff(),
+          ],
           model: model.copyWith(
-              displayKiloWattsAsSmallest: false,
-              // displayAsUnsigned: true,
-             )),
+            displayKiloWattsAsSmallest: false,
+          )),
     );
   }
 }

@@ -20,6 +20,7 @@ class EnergyFlows extends StatefulWidget {
   const EnergyFlows(
       {Key? key,
       required this.model,
+      required this.items,
       this.appearance = EnergyFlowAppearance.light,
       this.size})
       : super(key: key);
@@ -27,6 +28,7 @@ class EnergyFlows extends StatefulWidget {
 
   final EnergyFlowModel model;
   final EnergyFlowAppearance appearance;
+  final List<EnergyFlowsIconModel> items;
 
   @override
   State<EnergyFlows> createState() => _EnergyFlowsState();
@@ -128,6 +130,9 @@ class _EnergyFlowsState extends State<EnergyFlows> {
           endColor: gridColor,
           appearance: widget.appearance,
         ),
+
+
+      
       ],
     );
   }
@@ -137,26 +142,26 @@ class _EnergyFlowsState extends State<EnergyFlows> {
     Size size = Size(s, s);
 
     return Stack(children: [
-      for (int i = 0; i < iconModels.length; i++) ...[
+      for (int i = 0; i < widget.items.length; i++) ...[
         Positioned(
-          left: iconModels[i].offset(size).dx,
-          top: iconModels[i].offset(size).dy,
+          left: widget.items[i].offset(size).dx,
+          top: widget.items[i].offset(size).dy,
           child: Semantics(
             label: '''
-${iconModels[i].name} power : ${widget.model.powerValuesString[i]}
+${widget.items[i].name} power : ${widget.model.powerValuesString[i]}
 ''',
             child: EnergyFlowsIcon(
-              iconModels[i],
+              widget.items[i],
               widget.model.powerStates[i],
               size,
-              onTapDown: widget.model.onTaps[i],
+              onTapDown: widget.items[i].onTap,
               appearance: widget.appearance,
             ),
           ),
         ),
         Positioned(
-            left: iconModels[i].offset(size).dx,
-            top: iconModels[i].offset(size).dy,
+            left: widget.items[i].offset(size).dx,
+            top: widget.items[i].offset(size).dy,
             child: IgnorePointer(
               child: Container(
                   decoration: const BoxDecoration(shape: BoxShape.circle),
@@ -167,7 +172,7 @@ ${iconModels[i].name} power : ${widget.model.powerValuesString[i]}
                       SizedBox(
                           width: size.shortestSide / 7.5,
                           height: size.shortestSide / 7.5,
-                          child: widget.model.icons[i]),
+                          child: widget.items[i].icon),
                       Center(
                           child: PowerText(widget.model.powerValuesString[i],
                               style: (Theme.of(context).textTheme.bodyText1 ??

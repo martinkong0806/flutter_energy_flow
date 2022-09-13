@@ -7,17 +7,10 @@ class EnergyFlowModel {
       {this.pvPower = 0,
       this.batPower = 0,
       this.gridPower = 0,
+      this.tariffPower = 0,
       this.loadPowerC,
       this.displayKiloWattsAsSmallest = true,
       this.displayPowerChangeIndicationColor = false,
-      this.pvIcon,
-      this.loadIcon,
-      this.batIcon,
-      this.gridIcon,
-      this.onPvTap,
-      this.onLoadTap,
-      this.onBatTap,
-      this.onGridTap,
       this.isDisabled = false,
       this.displayAsUnsigned = true});
 
@@ -30,6 +23,8 @@ class EnergyFlowModel {
   // Negative as importing, positive as exporting
   final double gridPower;
 
+  final double tariffPower;
+
   /// Custome loadPower, if load power is not specified,
   ///  the load power will be calaulated. The value is not
   /// involved in calcuation.
@@ -38,10 +33,6 @@ class EnergyFlowModel {
   final bool displayKiloWattsAsSmallest;
 
   final bool displayPowerChangeIndicationColor;
-
-  final Widget? pvIcon, loadIcon, batIcon, gridIcon;
-
-  final void Function(TapDownDetails)? onPvTap, onLoadTap, onBatTap, onGridTap;
 
   /// TODO, this flag is will casue bug currently, scheduled to fix.
   /// Show power values unsigned
@@ -54,11 +45,16 @@ class EnergyFlowModel {
 
   double get loadPower => max(pvPower + batPower - gridPower, 0);
 
-  List<bool> get powerStates =>
-      [isPvActive, isLoadActive, isBatActive, isGridActive];
+  List<bool> get powerStates => [
+        isPvActive,
+        isLoadActive,
+        isBatActive,
+        isGridActive,
+        isTariffActive
+      ];
 
   List<double> get powerValues =>
-      [pvPower, loadPowerC ?? loadPower, batPower, gridPower];
+      [pvPower, loadPowerC ?? loadPower, batPower, gridPower, tariffPower];
 
   List<String> get powerValuesString =>
       powerValues.map(powerValuesAsString).toList();
@@ -70,6 +66,8 @@ class EnergyFlowModel {
   bool get isBatActive => isValid && batPower != 0;
 
   bool get isGridActive => isValid && gridPower != 0;
+
+  bool get isTariffActive => isValid && tariffPower != 0;
 
   double get pvToLoad => isValid ? min(pvPower, loadPower) : 0;
 
@@ -87,9 +85,6 @@ class EnergyFlowModel {
       isValid ? min(-gridPower, max(loadPower - pvToLoad - pvToBat, 0)) : 0;
 
   double get gridToBat => isValid ? max(-gridPower - gridToLoad, 0) : 0;
-
-  List<void Function(TapDownDetails)?> get onTaps =>
-      [onPvTap, onLoadTap, onBatTap, onGridTap];
 
   String powerValuesAsString(double value) {
     if (isDisabled) return '---';
@@ -117,31 +112,25 @@ class EnergyFlowModel {
     return value.toString() + " " + unit;
   }
 
-  List<Widget?> get icons => [pvIcon, loadIcon, batIcon, gridIcon];
+  // List<Widget?> get icons => [pvIcon, loadIcon, batIcon, gridIcon];
 
   EnergyFlowModel copyWith({
     double? pvPower,
     double? batPower,
     double? gridPower,
+    double? tariffPower,
     double? loadPowerC,
     bool? displayKiloWattsAsSmallest,
     bool? displayAsUnsigned,
     bool? displayPowerChangeIndicationColor,
     bool? isDisabled,
-    Widget? pvIcon,
-    Widget? loadIcon,
-    Widget? batIcon,
-    Widget? gridIcon,
-    void Function(TapDownDetails)? onPvTap,
-    void Function(TapDownDetails)? onLoadTap,
-    void Function(TapDownDetails)? onBatTap,
-    void Function(TapDownDetails)? onGridTap,
     ThemeMode? themeMode = ThemeMode.light,
   }) {
     return EnergyFlowModel(
       pvPower: pvPower ?? this.pvPower,
       batPower: batPower ?? this.batPower,
       gridPower: gridPower ?? this.gridPower,
+      tariffPower: tariffPower ?? this.tariffPower,
       loadPowerC: loadPowerC,
       displayKiloWattsAsSmallest:
           displayKiloWattsAsSmallest ?? this.displayKiloWattsAsSmallest,
@@ -149,14 +138,6 @@ class EnergyFlowModel {
       displayPowerChangeIndicationColor: displayPowerChangeIndicationColor ??
           this.displayPowerChangeIndicationColor,
       isDisabled: isDisabled ?? this.isDisabled,
-      pvIcon: pvIcon,
-      loadIcon: loadIcon,
-      batIcon: batIcon,
-      gridIcon: gridIcon,
-      onPvTap: onPvTap,
-      onLoadTap: onLoadTap,
-      onBatTap: onBatTap,
-      onGridTap: onGridTap,
     );
   }
 }
