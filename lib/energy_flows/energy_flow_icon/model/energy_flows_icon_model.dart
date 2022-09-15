@@ -112,7 +112,7 @@ class EnergyFlowsIconModel {
 
   const EnergyFlowsIconModel.smartPlugs()
       : this(
-          name: "snartPlugs",
+          name: "smartPlugs",
           scale: 0.8,
           color: loadColor,
           offsetDistanceRatio: 1 / 2,

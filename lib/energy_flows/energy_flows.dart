@@ -131,6 +131,7 @@ class _EnergyFlowsState extends State<EnergyFlows> {
           appearance: widget.appearance,
         ),
 
+        if(widget.items.any((element) => element.name == "tariff"))
         InnerRail(
           offsetDistanceRatio: 1 / 2,
           offsetDirection: 2 * math.pi + math.pi / 2,
@@ -140,6 +141,7 @@ class _EnergyFlowsState extends State<EnergyFlows> {
           appearance: widget.appearance,
         ),
 
+        if (widget.items.any((element) => element.name == "ev"))
         InnerRail(
           offsetDistanceRatio: 1 / 2,
           offsetDirection:  2 * math.pi / 3 + math.pi / 2,
@@ -149,6 +151,7 @@ class _EnergyFlowsState extends State<EnergyFlows> {
           appearance: widget.appearance,
         ),
 
+        if (widget.items.any((element) => element.name == "smartPlugs"))
         InnerRail(
           offsetDistanceRatio: 1 / 2,
           offsetDirection: 2 * math.pi * 2 / 3 + math.pi / 2,
