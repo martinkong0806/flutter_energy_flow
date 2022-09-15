@@ -46,6 +46,7 @@ class EnergyFlowsIconModel {
       {String? name,
       Color? color,
       void Function(TapDownDetails details)? onTap,
+      double ? scale,
       Widget? icon,
       double? offsetDistanceRatio,
       double? offsetDirection}) {
@@ -54,6 +55,7 @@ class EnergyFlowsIconModel {
         color: color ?? this.color,
         onTap: onTap ?? this.onTap,
         icon: icon ?? this.icon,
+        scale: scale ?? this.scale,
         offsetDistanceRatio: offsetDistanceRatio ?? this.offsetDistanceRatio,
         offsetDirection: offsetDirection ?? this.offsetDirection);
   }

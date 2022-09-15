@@ -167,22 +167,29 @@ class _EnergyFlowsState extends State<EnergyFlows> {
   Stack _iconGroup(BuildContext context, BoxConstraints constraints) {
     double s = min(constraints.maxWidth, constraints.maxHeight);
     Size size = Size(s, s);
+    
 
     return Stack(children: [
+
+      
+    
       for (int i = 0; i < widget.items.length; i++) ...[
         Positioned(
           left: widget.items[i].offset(size).dx,
           top: widget.items[i].offset(size).dy,
-          child: Semantics(
-            label: '''
-${widget.items[i].name} power : ${widget.model.powerValuesString[i]}
-''',
-            child: EnergyFlowsIcon(
-              widget.items[i],
-              widget.model.powerStates[i],
-              size,
-              onTapDown: widget.items[i].onTap,
-              appearance: widget.appearance,
+          child: Transform.scale(
+            scale: widget.items[i].scale,
+            child: Semantics(
+              label: '''
+          ${widget.items[i].name} power : ${widget.model.powerValuesString[i]}
+          ''',
+              child: EnergyFlowsIcon(
+                widget.items[i],
+                widget.model.powerStates[i],
+                size ,
+                onTapDown: widget.items[i].onTap,
+                appearance: widget.appearance,
+              ),
             ),
           ),
         ),
@@ -190,31 +197,34 @@ ${widget.items[i].name} power : ${widget.model.powerValuesString[i]}
             left: widget.items[i].offset(size).dx,
             top: widget.items[i].offset(size).dy,
             child: IgnorePointer(
-              child: Container(
-                  decoration: const BoxDecoration(shape: BoxShape.circle),
-                  width: size.shortestSide / 5,
-                  height: size.shortestSide / 5,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                          width: size.shortestSide / 7.5,
-                          height: size.shortestSide / 7.5,
-                          child: widget.items[i].icon),
-                      Center(
-                          child: PowerText(widget.model.powerValuesString[i],
-                              style: (Theme.of(context).textTheme.bodyText1 ??
-                                      const TextStyle(color: Colors.black))
-                                  .copyWith(
-                                fontSize: size.shortestSide / 27.5,
-                              ),
-                              isDisabled: widget.model.isDisabled,
-                              displayAsUnsigned: widget.model.displayAsUnsigned,
-                              displayKiloWattsAsSmallest:
-                                  widget.model.displayKiloWattsAsSmallest,
-                              displayPowerChangeIndicationColor: widget
-                                  .model.displayPowerChangeIndicationColor)),
-                    ],
-                  )),
+              child: Transform.scale(
+                scale: widget.items[i].scale,
+                child: Container(
+                    decoration: const BoxDecoration(shape: BoxShape.circle),
+                    width: size.shortestSide  / 5,
+                    height: size.shortestSide / 5,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                            width: size.shortestSide  / 7.5,
+                            height: size.shortestSide  / 7.5,
+                            child: widget.items[i].icon),
+                        Center(
+                            child: PowerText(widget.model.powerValuesString[i],
+                                style: (Theme.of(context).textTheme.bodyText1 ??
+                                        const TextStyle(color: Colors.black))
+                                    .copyWith(
+                                  fontSize: size.shortestSide / 27.5,
+                                ),
+                                isDisabled: widget.model.isDisabled,
+                                displayAsUnsigned: widget.model.displayAsUnsigned,
+                                displayKiloWattsAsSmallest:
+                                    widget.model.displayKiloWattsAsSmallest,
+                                displayPowerChangeIndicationColor: widget
+                                    .model.displayPowerChangeIndicationColor)),
+                      ],
+                    )),
+              ),
             )),
       ]
     ]);

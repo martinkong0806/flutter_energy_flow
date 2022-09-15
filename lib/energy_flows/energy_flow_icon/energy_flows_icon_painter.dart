@@ -12,7 +12,7 @@ class EnergyFlowsIconPaint extends CustomPainter {
   final double glow;
   final bool isActive;
   final EnergyFlowAppearance appearance;
-  final double scale;
+
 
   EnergyFlowsIconPaint(
       {required this.color,
@@ -20,12 +20,12 @@ class EnergyFlowsIconPaint extends CustomPainter {
       required this.offsetDirection,
       required this.glow,
       required this.isActive,
-      required this.scale,
+
       required this.appearance});
 
   @override
   void paint(Canvas canvas, Size size) {
-    final double radius = size.shortestSide * scale / 2;
+    final double radius = size.shortestSide / 2;
     final Offset center = size.toOffset() / 2;
     final Paint paint = Paint()..color = color;
 
