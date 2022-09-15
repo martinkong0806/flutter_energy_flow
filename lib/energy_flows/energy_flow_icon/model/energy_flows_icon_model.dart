@@ -5,6 +5,7 @@ class EnergyFlowsIconModel {
   final Color color;
   final void Function(TapDownDetails details)? onTap;
   final Widget? icon;
+  final double scale ;
 
   /// How far the icon is located from the center of of the canvas,
   /// actual offset distance subjected to device size.
@@ -24,6 +25,7 @@ class EnergyFlowsIconModel {
       required this.color,
       this.onTap,
       this.icon,
+      this.scale = 1,
       required this.offsetDistanceRatio,
       required this.offsetDirection});
 
@@ -87,14 +89,31 @@ class EnergyFlowsIconModel {
           offsetDistanceRatio: 3 / 4,
           offsetDirection: 2 * math.pi + math.pi / 6,
         );
-  
-
 
   const EnergyFlowsIconModel.tariff()
       : this(
           name: "tariff",
+          scale: 0.8,
           color: gridColor,
-          offsetDistanceRatio: 1/2,
-          offsetDirection: 2 * math.pi + math.pi / 2 ,
+          offsetDistanceRatio: 1 / 2,
+          offsetDirection: 2 * math.pi + math.pi / 2,
+        );
+
+  const EnergyFlowsIconModel.ev()
+      : this(
+          name: "ev",
+          scale: 0.8,
+          color: loadColor,
+          offsetDistanceRatio: 1 / 2,
+          offsetDirection: 2 * math.pi / 3 + math.pi / 2,
+        );
+
+  const EnergyFlowsIconModel.smartPlugs()
+      : this(
+          name: "snartPlugs",
+          scale: 0.8,
+          color: loadColor,
+          offsetDistanceRatio: 1 / 2,
+          offsetDirection: 2 * math.pi * 2 / 3 + math.pi / 2,
         );
 }

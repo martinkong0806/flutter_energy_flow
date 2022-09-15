@@ -8,6 +8,8 @@ class EnergyFlowModel {
       this.batPower = 0,
       this.gridPower = 0,
       this.tariffPower = 0,
+      this.evPower = 0,
+      this.smartPlugsPower = 0,
       this.loadPowerC,
       this.displayKiloWattsAsSmallest = true,
       this.displayPowerChangeIndicationColor = false,
@@ -24,6 +26,10 @@ class EnergyFlowModel {
   final double gridPower;
 
   final double tariffPower;
+
+  final double evPower;
+
+  final double smartPlugsPower;
 
   /// Custome loadPower, if load power is not specified,
   ///  the load power will be calaulated. The value is not
@@ -50,11 +56,20 @@ class EnergyFlowModel {
         isLoadActive,
         isBatActive,
         isGridActive,
-        isTariffActive
+        isTariffActive,
+        isEvActive,
+        isSmartPlugsActive
       ];
 
-  List<double> get powerValues =>
-      [pvPower, loadPowerC ?? loadPower, batPower, gridPower, tariffPower];
+  List<double> get powerValues => [
+        pvPower,
+        loadPowerC ?? loadPower,
+        batPower,
+        gridPower,
+        tariffPower,
+        evPower,
+        smartPlugsPower
+      ];
 
   List<String> get powerValuesString =>
       powerValues.map(powerValuesAsString).toList();
@@ -68,6 +83,10 @@ class EnergyFlowModel {
   bool get isGridActive => isValid && gridPower != 0;
 
   bool get isTariffActive => isValid && tariffPower != 0;
+
+  bool get isEvActive => isValid && evPower != 0;
+
+  bool get isSmartPlugsActive => isValid && smartPlugsPower != 0;
 
   double get pvToLoad => isValid ? min(pvPower, loadPower) : 0;
 
@@ -119,6 +138,8 @@ class EnergyFlowModel {
     double? batPower,
     double? gridPower,
     double? tariffPower,
+    double? evPower,
+    double? smartPlugsPower,
     double? loadPowerC,
     bool? displayKiloWattsAsSmallest,
     bool? displayAsUnsigned,
@@ -131,6 +152,8 @@ class EnergyFlowModel {
       batPower: batPower ?? this.batPower,
       gridPower: gridPower ?? this.gridPower,
       tariffPower: tariffPower ?? this.tariffPower,
+      evPower: evPower ?? this.evPower,
+      smartPlugsPower:  smartPlugsPower ?? this.smartPlugsPower,
       loadPowerC: loadPowerC,
       displayKiloWattsAsSmallest:
           displayKiloWattsAsSmallest ?? this.displayKiloWattsAsSmallest,

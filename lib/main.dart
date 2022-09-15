@@ -65,7 +65,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       pvPower: pvPower,
       batPower: batPower,
       gridPower: gridPower,
-      tariffPower: 0,
+      tariffPower: 30,
+      evPower :30,
+      smartPlugsPower: 50,
       displayAsUnsigned: false,
     );
     return Scaffold(
@@ -84,7 +86,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             EnergyFlowsIconModel.load(),
             EnergyFlowsIconModel.battery(),
             EnergyFlowsIconModel.grid(),
+
             EnergyFlowsIconModel.tariff(),
+            EnergyFlowsIconModel.ev(),
+            EnergyFlowsIconModel.smartPlugs()
           ],
           model: model.copyWith(
             displayKiloWattsAsSmallest: false,

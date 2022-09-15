@@ -131,6 +131,33 @@ class _EnergyFlowsState extends State<EnergyFlows> {
           appearance: widget.appearance,
         ),
 
+        InnerRail(
+          offsetDistanceRatio: 1 / 2,
+          offsetDirection: 2 * math.pi + math.pi / 2,
+          isActive: widget.model.pvToLoad.isPositive,
+          startColor: loadColor,
+          endColor: gridColor,
+          appearance: widget.appearance,
+        ),
+
+        InnerRail(
+          offsetDistanceRatio: 1 / 2,
+          offsetDirection:  2 * math.pi / 3 + math.pi / 2,
+          isActive: widget.model.pvToLoad.isPositive,
+          startColor: loadColor,
+          endColor: loadColor,
+          appearance: widget.appearance,
+        ),
+
+        InnerRail(
+          offsetDistanceRatio: 1 / 2,
+          offsetDirection: 2 * math.pi * 2 / 3 + math.pi / 2,
+          isActive: widget.model.pvToLoad.isPositive,
+          startColor: loadColor,
+          endColor: batColor,
+          appearance: widget.appearance,
+        ),
+
 
       
       ],

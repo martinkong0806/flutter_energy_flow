@@ -12,6 +12,7 @@ class EnergyFlowsIconPaint extends CustomPainter {
   final double glow;
   final bool isActive;
   final EnergyFlowAppearance appearance;
+  final double scale;
 
   EnergyFlowsIconPaint(
       {required this.color,
@@ -19,11 +20,12 @@ class EnergyFlowsIconPaint extends CustomPainter {
       required this.offsetDirection,
       required this.glow,
       required this.isActive,
+      required this.scale,
       required this.appearance});
 
   @override
   void paint(Canvas canvas, Size size) {
-    final double radius = size.shortestSide / 2;
+    final double radius = size.shortestSide * scale / 2;
     final Offset center = size.toOffset() / 2;
     final Paint paint = Paint()..color = color;
 
@@ -48,16 +50,17 @@ extension CutsomCanvasUtils on Canvas {
     //         ..color = paint.color.withOpacity(0.5)
     //         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5));
     // } else {
-      
+
     // }
-    drawCircle(c, radius + 2, paint);
+  
+    drawCircle(c, radius  + 2, paint);
     drawCircle(
-          c,
-          radius * glow,
-          paint
-            ..color = paint.color.withOpacity(0.5)
-            ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5));
-    
+        c,
+        radius * glow,
+        paint
+          ..color = paint.color.withOpacity(0.5)
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5));
+
     drawCircle(c, radius, Paint()..color = appearance.iconColor);
   }
 }

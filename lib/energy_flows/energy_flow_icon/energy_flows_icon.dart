@@ -126,6 +126,7 @@ class _EnergyFlowsIconState extends State<EnergyFlowsIcon>
               offsetDistanceRatio: model.offsetDistanceRatio,
               offsetDirection: model.offsetDirection,
               glow: glowAnimation.value * colorController.value,
+              scale : widget._model.scale,
               isActive: widget._isActive,
               appearance: widget.appearance,
             )),
