@@ -65,9 +65,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       pvPower: pvPower,
       batPower: batPower,
       gridPower: gridPower,
-      tariffPower: 30,
-      evPower :30,
-      smartPlugsPower: 50,
+      tariffPower: 0,
+      evPower :0,
+      smartPlugsPower: 90,
       displayAsUnsigned: false,
     );
     return Scaffold(

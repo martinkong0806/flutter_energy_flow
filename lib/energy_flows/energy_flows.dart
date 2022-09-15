@@ -134,7 +134,7 @@ class _EnergyFlowsState extends State<EnergyFlows> {
         InnerRail(
           offsetDistanceRatio: 1 / 2,
           offsetDirection: 2 * math.pi + math.pi / 2,
-          isActive: widget.model.pvToLoad.isPositive,
+          isActive: widget.model.isTariffActive,
           startColor: loadColor,
           endColor: gridColor,
           appearance: widget.appearance,
@@ -143,7 +143,7 @@ class _EnergyFlowsState extends State<EnergyFlows> {
         InnerRail(
           offsetDistanceRatio: 1 / 2,
           offsetDirection:  2 * math.pi / 3 + math.pi / 2,
-          isActive: widget.model.pvToLoad.isPositive,
+          isActive: widget.model.isEvActive,
           startColor: loadColor,
           endColor: loadColor,
           appearance: widget.appearance,
@@ -152,9 +152,9 @@ class _EnergyFlowsState extends State<EnergyFlows> {
         InnerRail(
           offsetDistanceRatio: 1 / 2,
           offsetDirection: 2 * math.pi * 2 / 3 + math.pi / 2,
-          isActive: widget.model.pvToLoad.isPositive,
+          isActive: widget.model.isSmartPlugsActive,
           startColor: loadColor,
-          endColor: batColor,
+          endColor: loadColor,
           appearance: widget.appearance,
         ),
 
